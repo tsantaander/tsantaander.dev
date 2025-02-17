@@ -3,7 +3,7 @@ import { Inter, Fira_Code} from "next/font/google";
 import "@/styles/globals.css";
 
 const inter = Inter({
-  variable: "--font-geist-sans",
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 

@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { Sun } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import ThemeToggle from '../ui/themeToggle';
 
 interface NavLinkProps {
   href: string;
@@ -18,30 +17,26 @@ const NavLink: React.FC<NavLinkProps> = ({ href, children }) => (
 
 const Navbar: React.FC = () => {
   return (
-    <div className="fixed w-full py-6 px-4 bg-[#1E1A78]">
-      <div className="max-w-5xl mx-auto">
+    <div className="fixed w-full py-4 px-4 z-10">
+      <div className="max-w-[1000px] mx-auto">
         <nav className="bg-[#D9D9DE]/20 backdrop-blur-xl rounded-2xl">
           <div className="px-6">
-            <div className="flex items-center justify-between h-12">
+            <div className="flex items-center justify-between h-[55px]">
               {/* Sección de nombre */}
               <div className="flex-shrink-0">
-                <Link href="/" className="text-white font-medium">
+                <Link href="/" className="text-white font-bold text-[16px] tracking-normal">
                   Tomás Santander
                 </Link>
               </div>
 
               {/* Links de navegación */}
-              <div className="hidden md:flex items-center space-x-5 font-semibold">
+              <div className="hidden md:flex items-center space-x-5 font-bold text-[16px] tracking-normal">
                 <NavLink href="/about">Acerca de mi</NavLink>
                 <NavLink href="/projects">Proyectos</NavLink>
-                <NavLink href="/articles">Artículos</NavLink>
-                {/* Botón de cambio de tema */}
-                <Button
-                  className="rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
-                  aria-label="Toggle theme"
-                >
-                  <Sun className="h-8 w-8 text-gray-300" />
-                </Button>
+                <NavLink href="/articles">Artículos</NavLink>      
+              </div>
+              <div className='flex items-center'>
+                <ThemeToggle />
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
+  height: 100%;
   font-family: "Fira Code", "Inter", monospace;
 }
 
