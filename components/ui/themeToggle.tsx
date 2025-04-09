@@ -1,9 +1,22 @@
+"use client"
+import * as React from 'react';
+import { useTheme } from 'next-themes';
 import styles from '@/styles/themeToggle.module.css';
 
 const ThemeToggle = () => {
+  const { setTheme, resolvedTheme } = useTheme();
+
+  const handleThemeChange = () => {
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+  }
   return (
-    <label htmlFor="themeToggle" className={`${styles.themeToggle} ${styles.stSunMoonThemeToggleBtn}`}>
-      <input type="checkbox" id="themeToggle" className={styles.themeToggleInput} />
+    <button onClick={handleThemeChange} className={`${styles.themeToggle} ${styles.stSunMoonThemeToggleBtn} cursor-pointer`}>
+      <input 
+        type="checkbox" 
+        id="themeToggle" 
+        checked={resolvedTheme === 'dark'} 
+        readOnly
+        className={styles.themeToggleInput} />
       <svg
         width="16"
         height="16"
@@ -32,7 +45,7 @@ const ThemeToggle = () => {
           <circle className={`${styles.sunRay} ${styles.sunRay6}`} cx="14" cy="3.1718" r="1.5"></circle>
         </g>
       </svg>
-    </label>
+    </button>
   );
 };
 

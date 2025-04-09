@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ThemeProvider } from "@/components/ui/theme-provider"
 import { Inter, Fira_Code} from "next/font/google";
 import "@/styles/globals.css";
 
@@ -23,11 +24,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${firaCode.variable} antialiased`}
+        className={`${inter.variable} ${firaCode.variable} antialiased flex flex-col`}
       >
-        {children}
+        <ThemeProvider 
+            attribute="class"
+            defaultTheme="dark"
+            >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

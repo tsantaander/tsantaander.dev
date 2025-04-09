@@ -17,9 +17,9 @@ const NavLink: React.FC<NavLinkProps> = ({ href, children }) => (
 
 const Navbar: React.FC = () => {
   return (
-    <div className="fixed w-full py-4 px-4 z-10">
+    <div className="fixed z-50 w-full py-4 px-4">
       <div className="max-w-[1000px] mx-auto">
-        <nav className="bg-[#D9D9DE]/20 backdrop-blur-xl rounded-2xl">
+        <nav className="bg-[#D9D9DE]/20 backdrop-blur-lg rounded-2xl">
           <div className="px-6">
             <div className="flex items-center justify-between h-[55px]">
               {/* Sección de nombre */}
@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
               </div>
 
               {/* Links de navegación */}
-              <div className="hidden md:flex items-center space-x-5 font-bold text-[16px] tracking-normal">
+              <div className="hidden md:flex mx-auto items-center space-x-5 font-bold text-[16px] tracking-normal">
                 <NavLink href="/about">Acerca de mi</NavLink>
                 <NavLink href="/projects">Proyectos</NavLink>
                 <NavLink href="/articles">Artículos</NavLink>      

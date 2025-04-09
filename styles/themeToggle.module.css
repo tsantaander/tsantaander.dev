@@ -62,10 +62,6 @@
     animation-delay: 0.25s !important;
 }
 
-.stSunMoonThemeToggleBtn svg .sunRay5 {
-    animation-delay: 0.29s !important;
-}
-
 .stSunMoonThemeToggleBtn .themeToggleInput:checked + svg {
     transform: rotate(90deg);
 }
