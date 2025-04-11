@@ -11,7 +11,7 @@ export default function ReadingSection() {
           <h1 className="w-full text-4xl sm:text-5xl lg:text-[4.5rem] xl:text-[5rem] font-sans leading-tight">
             Tomás Santander.
           </h1>
-          <h1 className="text-xl sm:text-2xl md:text-2xl lg:text-[2.5rem] xl:text-[3.2rem] xl:leading-[3.5rem] font-sans font-semibold text-white/70 backdrop-blur-sm mt-2">
+          <h1 className="text-xl sm:text-2xl md:text-2xl lg:text-[2.5rem] xl:text-[3.2rem] xl:leading-[3.5rem] font-sans font-semibold text-white/70 backdrop-blur-xs mt-2">
             Diseño y desarrollo soluciones que optimizan y generan impacto.
           </h1>
         </div>

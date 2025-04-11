@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
           <div className="px-6">
             <div className="flex items-center justify-between h-[55px]">
               {/* Sección de nombre */}
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <Link href="/" className="text-white font-bold text-[16px] tracking-normal">
                   Tomás Santander
                 </Link>
