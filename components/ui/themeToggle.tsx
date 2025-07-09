@@ -1,16 +1,27 @@
 "use client"
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import styles from '@/styles/themeToggle.module.css';
 
 const ThemeToggle = () => {
   const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   const handleThemeChange = () => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
   }
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
-    <button onClick={handleThemeChange} className={`${styles.themeToggle} ${styles.stSunMoonThemeToggleBtn} cursor-pointer`}>
+    <button onClick={handleThemeChange} className={`${styles.themeToggle} ${styles.stSunMoonThemeToggleBtn} cursor-pointer ${resolvedTheme === 'dark' ? 'text-[#F1F5F9]' : 'text-[#1D293D]'}`}>
       <input 
         type="checkbox" 
         id="themeToggle" 

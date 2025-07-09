@@ -12,7 +12,8 @@ const TypeWritting = () => {
       wrapper="span"
       cursor={true}
       repeat={Infinity}
-      style={{ fontSize: '1.2rem', display: 'inline-block' }}
+      style={{ fontSize: 'clamp(0.9rem, 2vw, 1.3em)', display: 'inline-block' }}
+      className='font-medium'
     />
   );
 };

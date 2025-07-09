@@ -1,18 +1,19 @@
-import NavBar from "@/components/Header/Navbar";
+import NavBar from "@/components/Header/NavBar";
 import HeroSection from "@/components/Hero/HeroSection";
-import FeaturedCardSection from "@/components/FeatureSection/FeaturedCardSection";
+import AboutMe from "@/components/AboutSection/AboutMe";
+import { HeroHighlight } from "@/components/ui/hero-highlight";
 
 export default function Home() {
   return (
     <>
-      <header>
-        <NavBar />
-      </header>
+      <NavBar />
       <main>
         <HeroSection />
-        <div className="hidden lg:block">
-          <FeaturedCardSection />
-        </div>
+        <section id="aboutme">
+          <HeroHighlight className="w-full flex flex-col mx-auto py-12 items-center justify-center min-h-screen">
+            <AboutMe />
+          </HeroHighlight>
+        </section>
       </main>
     </>
   );
