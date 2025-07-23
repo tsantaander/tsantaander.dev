@@ -9,51 +9,55 @@ import {
   TbBrandLinkedin,
   TbMail,
 } from "react-icons/tb"
-import { Code, Layers, UserRound, Zap } from "lucide-react"
+import { UserRound } from "lucide-react"
+import { BsWindowSplit } from "react-icons/bs";
+import { LuServerCog } from "react-icons/lu";
+import DevOpsIcon from "@/public/icons/devops.svg"
 import { useTheme } from "next-themes"
 import { Separator } from "@/components/ui/separator"
+import Link from "next/link"
 
 const networks = [
   {
     name: "Github",
     icon: TbBrandGithub,
     href: "https://github.com/tsantaander",
-    color: "hover:bg-purple-600",
+    color: "hover:bg-gradient-to-br from-purple-400 to-purple-800",
   },
   {
     name: "Linkedin",
     icon: TbBrandLinkedin,
     href: "https://www.linkedin.com/in/tomas-santander/",
-    color: "hover:bg-blue-600",
+    color: "hover:bg-gradient-to-br from-blue-400 to-blue-800",
   },
   {
     name: "Email",
     icon: TbMail,
     href: "x.santander.soto@outlook.cl",
-    color: "hover:bg-rose-400",
+    color: "hover:bg-gradient-to-br from-rose-400 to-rose-800",
   },
   {
     name: "Instagram",
     icon: TbBrandInstagram,
     href: "https://www.instagram.com/tsantaander/",
-    color: "hover:bg-pink-600",
+    color: "hover:bg-gradient-to-br from-pink-400 to-pink-800",
   },
 ]
 
 const SocialNetworks = () => {
   return (
     <div className="relative z-20 mt-4 sm:mt-0">
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-3">
         {networks.map((network) => (
-          <a
+          <Link
             key={network.name}
             href={network.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`border border-gray-600 p-2 rounded-xl sm:rounded-2xl ${network.color} transition-all duration-300 hover:scale-115`}
+            className={`border border-gray-600 hover:border-none p-2 rounded-xl sm:rounded-2xl ${network.color} transition-all duration-300 hover:scale-115`}
           >
             <network.icon className="size-5 sm:size-6 md:size-7 lg:size-8 hover:text-white" />
-          </a>
+          </Link>
         ))}
       </div>
     </div>
@@ -93,7 +97,7 @@ const AreasDeExperiencia = () => {
               transition: { duration: 0.5 },
             }}
           >
-            <Code className="h-8 w-8 text-purple-500 dark:text-purple-400 mb-2 transition-colors duration-300" />
+            <BsWindowSplit className="size-8 text-purple-500 dark:text-purple-400 mb-2 transition-colors duration-300" />
           </motion.div>
           <h4 className="font-medium dark:text-white transition-colors duration-300">
             FrontEnd
@@ -122,7 +126,7 @@ const AreasDeExperiencia = () => {
               transition: { duration: 0.6, repeat: 0 },
             }}
           >
-            <Layers className="h-8 w-8 text-blue-500 dark:text-blue-400 mb-2 transition-colors duration-300" />
+            <LuServerCog className="size-8 text-blue-500 dark:text-blue-400 mb-2 transition-colors duration-300" />
           </motion.div>
           <h4 className="font-medium dark:text-white transition-colors duration-300">
             BackEnd
@@ -151,7 +155,7 @@ const AreasDeExperiencia = () => {
               transition: { duration: 0.5 },
             }}
           >
-            <Zap className="h-8 w-8 text-amber-500 dark:text-amber-400 mb-2 transition-colors duration-300" />
+            <DevOpsIcon className="size-8 fill-amber-400 mb-2 transition-colors duration-300" />
           </motion.div>
           <h4 className="font-medium dark:text-white transition-colors duration-300">
             DevOps
@@ -202,6 +206,10 @@ const SpecializedSkills = () => {
       color: "hover:bg-sky-500",
     },
     {
+      name: "Vercel",
+      color: "hover:!bg-blue-600",
+    },
+    {
       name: "Tailwind CSS",
       color: "hover:bg-indigo-600",
     },
@@ -210,16 +218,8 @@ const SpecializedSkills = () => {
       color: "hover:bg-stone-700",
     },
     {
-      name: "UI/UX",
+      name: "Shadcn UI",
       color: "hover:bg-emerald-800",
-    },
-    {
-      name: "Diseño Responsivo",
-      color: "hover:bg-rose-400",
-    },
-    {
-      name: "Optimización de rendimiento",
-      color: "hover:!bg-blue-600",
     },
   ]
   return (
@@ -256,7 +256,7 @@ const SpecializedSkills = () => {
 export default function AboutMe() {
   return (
     <>
-      <div className="flex flex-col mx-auto gap-6 max-w-[75%] backdrop-blur-[1.5px]">
+      <div id="aboutme" className="flex flex-col mx-auto gap-6 max-w-[75%] backdrop-blur-[1.5px]">
         <div className="relative h-full bg-gray-500/20 dark:bg-slate-700/30 rounded-2xl border p-2 md:rounded-3xl md:p-3 col-span-1 md:col-span-2 lg:col-span-3 order-1 md:order-2">
           <GlowingEffect
             blur={0}
@@ -280,11 +280,12 @@ export default function AboutMe() {
                     <p className="text-lg sm:text-2xl relative z-20 mt-2 font-medium">
                       Tomás Alexander Santander Soto
                     </p>
-                    <p className="relative z-20 text-sm sm:text-lg text-slate-600 dark:text-neutral-400 font-medium uppercase">
-                      Tegma Solutions Ltda.
+                    <p className="relative z-20 text-sm sm:text-lg text-slate-600 dark:text-neutral-400 font-medium">
+                      TEGMA SOLUTIONS SpA.
                     </p>
                     <p className="relative z-20 text-sm sm:text-lg text-slate-600 dark:text-neutral-400 font-medium uppercase">
-                      FullStack Developer
+                      Estudiante de Ingeniería Informática | Full Stack Developer con enfoque FrontEnd | <br/> 
+                      CEO y Fundador de Tegma Solutions
                     </p>
                   </div>
                 </div>
@@ -301,7 +302,7 @@ export default function AboutMe() {
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Conocimiento especializado</h3>
+                <h3 className="text-lg font-semibold">Stack Tecnológico</h3>
                 <SpecializedSkills />
               </div>
 

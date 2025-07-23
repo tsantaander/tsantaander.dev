@@ -1,15 +1,15 @@
-// Función específica para realizar animaciones de scroll a través de botones
-export const scrollToTarget = (id: string) => {
-    const targetElement = document.getElementById(id);
-    if (targetElement) {
-        // Calcula la posición de destino restando el offset deseado (20px)
-        const offset = 72; // Define el offset en píxeles
-        const targetPosition = targetElement.offsetTop - offset;
+// Scroll ultra-optimizado
+export const scrollToTarget = (targetId: string): void => {
+  const element = document.getElementById(targetId)
+  if (!element) return
 
-        window.scrollTo({
-            // Usa la nueva posición calculada
-            top: targetPosition,
-            behavior: 'smooth'
-        });
-    }
-};
+  const headerOffset = 100
+  const elementPosition = element.getBoundingClientRect().top
+  const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+  // Usar scroll nativo optimizado
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: "smooth",
+  })
+}
