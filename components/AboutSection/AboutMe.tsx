@@ -54,7 +54,7 @@ const SocialNetworks = () => {
             href={network.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`border border-gray-600 hover:border-none p-2 rounded-xl sm:rounded-2xl ${network.color} transition-all duration-300 hover:scale-115`}
+            className={`border border-gray-600 hover:border-none p-2 rounded-xl sm:rounded-2xl ${network.color} transition-all hover:duration-500 hover:scale-125`}
           >
             <network.icon className="size-5 sm:size-6 md:size-7 lg:size-8 hover:text-white" />
           </Link>
@@ -189,7 +189,7 @@ const SpecializedSkills = () => {
       y: 0,
       transition: { type: "spring", stiffness: 300, damping: 20 },
     },
-  }
+  } as const;
 
   // Habilidades especializadas
   const skills = [

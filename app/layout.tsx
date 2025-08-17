@@ -33,11 +33,11 @@ export const metadata: Metadata = {
     title: "Tomás Santander | FullStack Developer Portfolio",
     description:
       "Discover Tomás Santander's expertise in FullStack Development, React, and Next.js. View projects, case studies, and technical skills.",
-    url: "https://kinhdev.id.vn",
+    url: "https://tsantaanderdev.vercel.app",
     type: "website",
     images: [
       {
-        url: "https://voocgavdbpy2gucg.public.blob.vercel-storage.com/open-graph-6fkPvt3jl60AhDWy2pPhfp3PKoZPrZ.png",
+        url: "",
         width: 1200,
         height: 630,
         alt: "Tomás Santander - FullStack Developer Portfolio",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     description:
       "Explore Tomás Santander's frontend projects and expertise in React, Next.js, and modern web development.",
     images: [
-      "https://voocgavdbpy2gucg.public.blob.vercel-storage.com/open-graph-6fkPvt3jl60AhDWy2pPhfp3PKoZPrZ.png",
+      "",
     ],
   },
   icons: {
