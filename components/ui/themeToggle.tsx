@@ -3,9 +3,11 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import styles from '@/styles/themeToggle.module.css';
+import { useResponsive } from '@/context/ResponsiveContext';
 
 const ThemeToggle = () => {
   const { setTheme, resolvedTheme } = useTheme();
+  const { isMobile } = useResponsive();
   const [mounted, setMounted] = useState(false);
 
   const handleThemeChange = () => {
@@ -21,7 +23,7 @@ const ThemeToggle = () => {
   }
 
   return (
-    <button onClick={handleThemeChange} className={`${styles.themeToggle} ${styles.stSunMoonThemeToggleBtn} cursor-pointer ${resolvedTheme === 'dark' ? 'text-[#F1F5F9]' : 'text-[#1D293D]'}`}>
+    <button onClick={handleThemeChange} className={`${styles.themeToggle} ${isMobile ? styles.themeToggleMobile : ''} ${styles.stSunMoonThemeToggleBtn} cursor-pointer ${resolvedTheme === 'dark' ? 'text-[#F1F5F9]' : 'text-[#1D293D]'}`}>
       <input 
         type="checkbox" 
         id="themeToggle" 

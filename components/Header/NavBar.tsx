@@ -99,7 +99,7 @@ export default function NavBar({ items = navItems }: NavBarProps) {
             >
               <span className="hidden md:inline">{item.name}</span>
               <span className="md:hidden">
-                <Icon size={18} strokeWidth={2.5} />
+                <Icon size={15} strokeWidth={2.5} />
               </span>
               {isActive && (
                 <motion.div

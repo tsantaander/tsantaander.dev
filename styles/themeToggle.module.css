@@ -6,6 +6,11 @@
     justify-content: center;
 }
 
+.themeToggleMobile {
+    width: 1.5em;
+    height: 1.5em;
+}
+
 .stSunMoonThemeToggleBtn {
     position: relative;
     cursor: pointer;
