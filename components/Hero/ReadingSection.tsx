@@ -14,7 +14,7 @@ export default function ReadingSection() {
           <h2 className="w-full text-4xl sm:text-2xl lg:text-[1.5rem] xl:text-[2.3rem] font-sans font-semibold leading-tight animate-blurred-fade-in animate-duration-300 animate-delay-800">
             FullStack Developer
           </h2>
-          <h1 className="text-xl sm:text-2xl md:text-2xl lg:text-[1rem] xl:text-[1.8rem] xl:leading-[3.5rem] font-sans font-base text-white/70 backdrop-blur-xs mt-10 animate-blurred-fade-in animate-duration-300 animate-delay-[1200ms]">
+          <h1 className="text-xl sm:text-2xl md:text-2xl lg:text-[1rem] xl:text-[1.8rem] xl:leading-[3.5rem] font-sans font-base text-white/70 mt-10 animate-blurred-fade-in animate-duration-300 animate-delay-[1200ms]">
             Diseño y desarrollo soluciones que optimizan y generan impacto
           </h1>
         </div>

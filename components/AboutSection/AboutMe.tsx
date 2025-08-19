@@ -256,7 +256,7 @@ const SpecializedSkills = () => {
 export default function AboutMe() {
   return (
     <>
-      <div id="aboutme" className="flex flex-col mx-auto gap-6 max-w-[75%] backdrop-blur-[1.5px]">
+      <div id="aboutme" className="flex flex-col mx-auto gap-6 sm:max-w-[95%] lg:max-w-[90%] backdrop-blur-[1.5px]">
         <div className="relative h-full bg-gray-500/20 dark:bg-slate-700/30 rounded-2xl border p-2 md:rounded-3xl md:p-3 col-span-1 md:col-span-2 lg:col-span-3 order-1 md:order-2">
           <GlowingEffect
             blur={0}
