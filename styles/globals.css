@@ -10,6 +10,12 @@
   }
 }
 
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 @theme inline {
   --font-sans: Inter, sans-serif;
   --font-mono: Fira Code, monospace;

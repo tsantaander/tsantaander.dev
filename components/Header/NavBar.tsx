@@ -6,7 +6,7 @@ import Link from "next/link"
 import { LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Home, User, Briefcase, FileText } from 'lucide-react'
-import ThemeToggle from "@/components/ui/themeToggle";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { scrollToTarget } from "@/components/ui/scrollAnimation"
 
 const navItems = [
@@ -72,7 +72,7 @@ export default function NavBar({ items = navItems }: NavBarProps) {
 
   return (
     <div className="fixed top-0 left-1/2 -translate-x-1/2 z-50 pt-6">
-      <div className="flex items-center gap-3 bg-white/35 border backdrop-blur-md py-1 px-1 rounded-full shadow-lg animate-fade-in-down animate-duration-600">
+      <div className="flex items-center gap-3 bg-white/65 dark:bg-white/35 border backdrop-blur-md py-1 px-1 rounded-full shadow-lg animate-fade-in-down animate-duration-600">
         {items.map((item) => {
           const Icon = item.icon
           const isActive = activeTab === item.name
@@ -123,7 +123,7 @@ export default function NavBar({ items = navItems }: NavBarProps) {
           )
         })}
         <div className="flex w-[64px] items-center justify-center pl-6 pr-2">
-          <ThemeToggle />
+          <AnimatedThemeToggler />
         </div>
       </div>
     </div>

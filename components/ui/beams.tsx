@@ -15,6 +15,7 @@ import {
   import { Canvas, useFrame } from "@react-three/fiber";
   import { PerspectiveCamera } from "@react-three/drei";
   import { degToRad } from "three/src/math/MathUtils.js";
+  import { useTheme } from "next-themes"
   
   type UniformValue = THREE.IUniform<unknown> | unknown;
   
@@ -198,6 +199,7 @@ import {
     noiseIntensity?: number;
     scale?: number;
     rotation?: number;
+    backgroundColor?: string; // Nueva prop para control manual del fondo
   }
   
   const Beams: FC<BeamsProps> = ({
@@ -209,15 +211,58 @@ import {
     noiseIntensity = 1.75,
     scale = 0.2,
     rotation = 0,
+    backgroundColor, // Prop opcional para override manual
   }) => {
-        const [isMounted, setIsMounted] = useState(false);
-
+    const [isMounted, setIsMounted] = useState(false);
+    const { resolvedTheme } = useTheme();
+    
     useEffect(() => {
       setIsMounted(true);
     }, []);
+    
     const meshRef = useRef<
       THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>
     >(null!);
+  
+    // Determinar el color de fondo basado en el tema
+    const getBackgroundColor = useMemo(() => {
+      // Si se proporciona backgroundColor manualmente, usarlo
+      if (backgroundColor) return backgroundColor;
+      
+      // Si no hay tema resuelto todavía, usar negro por defecto
+      if (!isMounted || !resolvedTheme) return "#000000";
+      
+      // Cambiar fondo según el tema
+      return resolvedTheme === 'dark' ? '#000000' : '#444444'; // Negro para oscuro, gris muy claro para modo claro
+    }, [resolvedTheme, isMounted, backgroundColor]);
+
+    // Determinar configuraciones de los beams basado en el tema
+    const beamSettings = useMemo(() => {
+      if (!isMounted || !resolvedTheme) {
+        return {
+          beamColor: "#000000",
+          ambientIntensity: 1,
+          directionalIntensity: 1,
+          materialOpacity: 1,
+        };
+      }
+
+      if (resolvedTheme === 'dark') {
+        return {
+          beamColor: "#000000", // Beams negros para fondo oscuro
+          ambientIntensity: 1,
+          directionalIntensity: 2,
+          materialOpacity: 1,
+        };
+      } else {
+        return {
+          beamColor: "#6d6d6d", // Beams blancos para fondo claro (inversión)
+          ambientIntensity: 0,
+          directionalIntensity: 1,
+          materialOpacity: 1,
+        };
+      }
+    }, [resolvedTheme, isMounted]);
   
     const beamMaterial = useMemo(
       () =>
@@ -263,7 +308,7 @@ import {
           },
           material: { fog: true },
           uniforms: {
-            diffuse: new THREE.Color(...hexToNormalizedRGB("#000000")),
+            diffuse: new THREE.Color(...hexToNormalizedRGB(beamSettings.beamColor)),
             time: { shared: true, mixed: true, linked: true, value: 0 },
             roughness: 0.3,
             metalness: 0.3,
@@ -271,14 +316,16 @@ import {
             envMapIntensity: 10,
             uNoiseIntensity: noiseIntensity,
             uScale: scale,
+            opacity: beamSettings.materialOpacity,
           },
         }),
-      [speed, noiseIntensity, scale]
+      [speed, noiseIntensity, scale, beamSettings.beamColor]
     );
   
-        return (
+    return (
       <CanvasWrapper
-        className={`transition-opacity duration-1000 ${isMounted ? "opacity-100" : "opacity-0"}`}>
+        className={`transition-opacity duration-1000 ${isMounted ? "opacity-100" : "opacity-0"}`}
+      >
         <group rotation={[0, 0, degToRad(rotation)]}>
           <PlaneNoise
             ref={meshRef}
@@ -287,10 +334,15 @@ import {
             width={beamWidth}
             height={beamHeight}
           />
-          <DirLight color={lightColor} position={[0, 3, 10]} />
+          <DirLight 
+            color={lightColor} 
+            position={[0, 3, 10]} 
+            intensity={beamSettings.directionalIntensity}
+          />
         </group>
-        <ambientLight intensity={1} />
-        <color attach="background" args={["#000000"]} />
+        <ambientLight intensity={beamSettings.ambientIntensity} />
+        {/* Color de fondo dinámico que cambia con el tema */}
+        <color attach="background" args={[getBackgroundColor]} />
         <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={30} />
       </CanvasWrapper>
     );
@@ -396,9 +448,14 @@ import {
   ));
   PlaneNoise.displayName = "PlaneNoise";
   
-  const DirLight: FC<{ position: [number, number, number]; color: string }> = ({
+  const DirLight: FC<{ 
+    position: [number, number, number]; 
+    color: string; 
+    intensity?: number;
+  }> = ({
     position,
     color,
+    intensity = 1,
   }) => {
     const dir = useRef<THREE.DirectionalLight>(null!);
     useEffect(() => {
@@ -421,11 +478,10 @@ import {
       <directionalLight
         ref={dir}
         color={color}
-        intensity={1}
+        intensity={intensity}
         position={position}
       />
     );
   };
   
   export default Beams;
-  
