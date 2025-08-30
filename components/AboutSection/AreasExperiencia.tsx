@@ -83,18 +83,10 @@ const areasExperiencia: AreaExperiencia[] = [
 ];
 
 export const AreasDeExperiencia = () => {
-  const [mounted, setMounted] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState('dark');
   const { theme } = useTheme();
   const [active, setActive] = useState<AreaExperiencia | boolean | null>(null);
   const id = useId();
   const ref = useRef<HTMLDivElement>(null);
-
-  // Evitar hidratación hasta que el componente esté montado en el cliente
-  useEffect(() => {
-    setMounted(true);
-    setCurrentTheme(theme || 'dark');
-  }, [theme]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -113,7 +105,7 @@ export const AreasDeExperiencia = () => {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [active]);
 
-  useOutsideClick(ref as any, () => setActive(null));
+  useOutsideClick(ref, () => setActive(null));
 
   return (
     <div className="w-full">
