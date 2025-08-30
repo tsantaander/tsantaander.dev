@@ -31,7 +31,7 @@ export const SocialNetworks = () => {
       {
         name: "Instagram",
         icon: TbBrandInstagram,
-        href: "https://www.instagram.com/tsantaander/",
+        href: "https://www.instagram.com/tegmasolutions/",
         color: "hover:bg-gradient-to-br from-pink-400 to-pink-800",
       },
     ]

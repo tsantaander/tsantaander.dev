@@ -6,6 +6,18 @@ import { BsWindowSplit, BsX } from "react-icons/bs"
 import { LuServerCog } from "react-icons/lu"
 import DevOpsIcon from "@/public/icons/devops.svg"
 import { useOutsideClick } from "@/hooks/use-outside-click"
+import { Progress } from "@/components/ui/progress"
+
+const nivelAValor = (nivel: string): number => {
+  const niveles: Record<string, number> = {
+    'Inicial': 30,
+    'Intermedio': 60,
+    'Intermedio-Avanzado': 75,
+    'Avanzado': 90,
+    'Experto': 100
+  };
+  return niveles[nivel] || 50;
+};
 
 interface AreaTecnologia {
   nombre: string;
@@ -18,7 +30,6 @@ interface AreaExperiencia {
   descripcion: string;
   icono: React.ReactElement<React.SVGProps<SVGSVGElement>>;
   tecnologias: AreaTecnologia[];
-  proyectosDestacados: string[];
   experiencia: string;
 }
 
@@ -30,15 +41,11 @@ const areasExperiencia: AreaExperiencia[] = [
     icono: <BsWindowSplit className="size-8 mb-2" />,
     tecnologias: [
       { nombre: 'React', nivel: 'Avanzado' },
-      { nombre: 'TypeScript', nivel: 'Avanzado' },
+      { nombre: 'TypeScript', nivel: 'Intermedio-Avanzado' },
       { nombre: 'Next.js', nivel: 'Intermedio-Avanzado' },
       { nombre: 'Tailwind CSS', nivel: 'Avanzado' },
       { nombre: 'Redux', nivel: 'Intermedio' },
-    ],
-    proyectosDestacados: [
-      'Aplicación de gestión de tareas con React y Firebase',
-      'E-commerce con Next.js y Stripe',
-      'Dashboard administrativo con Material-UI'
+      { nombre: 'Shadcn UI', nivel: 'Avanzado' },
     ],
     experiencia: '3+ años'
   },
@@ -48,16 +55,11 @@ const areasExperiencia: AreaExperiencia[] = [
     descripcion: 'Construyendo APIs robustas y sistemas escalables con las mejores prácticas de desarrollo.',
     icono: <LuServerCog className="size-8 mb-2" />,
     tecnologias: [
-      { nombre: 'Node.js', nivel: 'Avanzado' },
-      { nombre: 'Express', nivel: 'Intermedio-Avanzado' },
+      { nombre: 'Node.js', nivel: 'Intermedio' },
+      { nombre: 'Express', nivel: 'Inicial' },
       { nombre: 'MongoDB', nivel: 'Intermedio' },
       { nombre: 'PostgreSQL', nivel: 'Intermedio' },
-      { nombre: 'GraphQL', nivel: 'Intermedio' },
-    ],
-    proyectosDestacados: [
-      'API REST para aplicación de gestión de contenidos',
-      'Microservicios con Node.js y Docker',
-      'Sistema de autenticación JWT'
+      { nombre: 'FastAPI', nivel: 'Inicial' },
     ],
     experiencia: '2+ años'
   },
@@ -69,14 +71,9 @@ const areasExperiencia: AreaExperiencia[] = [
     tecnologias: [
       { nombre: 'Docker', nivel: 'Intermedio' },
       { nombre: 'GitHub Actions', nivel: 'Intermedio' },
-      { nombre: 'AWS', nivel: 'Básico' },
-      { nombre: 'CI/CD', nivel: 'Intermedio' },
-      { nombre: 'Nginx', nivel: 'Básico' },
-    ],
-    proyectosDestacados: [
-      'Configuración de pipelines CI/CD',
-      'Dockerización de aplicaciones',
-      'Automatización de despliegues'
+      { nombre: 'AWS', nivel: 'Intermedio' },
+      { nombre: 'CI/CD', nivel: 'Inicial' },
+      { nombre: 'Nginx', nivel: 'Inicial' },
     ],
     experiencia: '1+ año'
   }
@@ -159,7 +156,7 @@ export const AreasDeExperiencia = () => {
               </motion.div>
 
               <div>
-                <div className="flex justify-between items-start p-4">
+                <div className="flex justify-between items-start py-4 px-6">
                   <div className="">
                     <motion.h3
                       layoutId={`title-${active.titulo}-${id}`}
@@ -187,41 +184,34 @@ export const AreasDeExperiencia = () => {
                   </motion.button>
                 </div>
 
-                <div className="pt-4 relative px-4">
+                <div className="pt-4 relative px-6">
                   <motion.div
                     layout
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                    className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                   >
                     <div className="w-full">
                       <p className="mb-4">{active.descripcion}</p>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <h4 className="font-semibold mb-2 text-neutral-700 dark:text-neutral-200">Tecnologías</h4>
-                          <div className="space-y-2">
-                            {active.tecnologias.map((tech, index) => (
-                              <div key={index} className="flex justify-between">
-                                <span>{tech.nombre}</span>
-                                <span className="text-neutral-500">{tech.nivel}</span>
+                      <div className="flex flex-col mx-auto w-full items-center justify-center">
+                        <h4 className="font-semibold mb-2 text-neutral-700 dark:text-neutral-200">Tecnologías</h4>
+                        <div className="space-y-4 w-full">
+                          {active.tecnologias.map((tech, index) => (
+                            <div key={index} className="space-y-1 w-full">
+                              <div className="flex justify-between items-center text-sm">
+                                <span className="font-medium text-neutral-700 dark:text-neutral-300">{tech.nombre}</span>
+                                <span className="text-sm font-medium text-neutral-500">{tech.nivel}</span>
                               </div>
-                            ))}
-                          </div>
+                              <Progress 
+                                value={nivelAValor(tech.nivel)} 
+                                className="h-2 bg-neutral-200 dark:bg-neutral-800"
+                              />
+                            </div>
+                          ))}
                         </div>
-
-                        <div>
-                          <h4 className="font-semibold mb-2 text-neutral-700 dark:text-neutral-200">Proyectos Destacados</h4>
-                          <ul className="space-y-1">
-                            {active.proyectosDestacados.map((proyecto, index) => (
-                              <li key={index} className="flex items-start">
-                                <span className="text-green-500 mr-2">•</span>
-                                <span>{proyecto}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                        
                       </div>
                     </div>
                   </motion.div>
