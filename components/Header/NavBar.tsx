@@ -6,8 +6,10 @@ import Link from "next/link"
 import { LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Home, User, Briefcase, FileText } from 'lucide-react'
-import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { scrollToTarget } from "@/components/ui/scrollAnimation"
+import dynamic from "next/dynamic"
+
+const AnimatedThemeToggler = dynamic(() => import('@/components/ui/animated-theme-toggler'), { ssr: false })
 
 const navItems = [
   { name: 'Home', url: 'home', icon: Home, style: "animate-pulse-fade-in animate-delay-500 animate-duration-100" },
@@ -46,11 +48,7 @@ export default function NavBar({ items = navItems }: NavBarProps) {
       {
         // El umbral (threshold) de 0.5 significa que la sección se considera activa
         // cuando al menos el 50% de ella es visible.
-        threshold: 0.5,
-        // rootMargin ajusta el "viewport" de observación.
-        // -80px en la parte superior para compensar la altura del NavBar.
-        // -40% en la parte inferior para que la sección activa esté más centrada.
-        rootMargin: "-80px 0px -40% 0px"
+        threshold: 0.5,  
       }
     );
     const sections = items.map((item) => document.getElementById(item.url));
@@ -94,7 +92,7 @@ export default function NavBar({ items = navItems }: NavBarProps) {
               className={cn(
                 `relative cursor-pointer text-base font-fira font-semibold px-6 py-2 rounded-full transition-colors whitespace-nowrap ${item.style}`,
                 "text-foreground/80 hover:text-primary",
-                isActive && "bg-muted text-primary",
+                isActive && "bg-slate-200 dark:bg-slate-900 text-primary",
               )}
             >
               <span className="hidden md:inline">{item.name}</span>

@@ -49,9 +49,6 @@ export const metadata: Metadata = {
     title: "Tomás Santander | FullStack Developer Portfolio",
     description:
       "Explore Tomás Santander's frontend projects and expertise in React, Next.js, and modern web development.",
-    images: [
-      "",
-    ],
   },
   icons: {
     icon: "/favicon.ico",

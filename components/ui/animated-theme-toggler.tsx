@@ -148,3 +148,4 @@ export const AnimatedThemeToggler = ({ className }: AnimatedThemeTogglerProps) =
   );
 };
 
+export default AnimatedThemeToggler;
