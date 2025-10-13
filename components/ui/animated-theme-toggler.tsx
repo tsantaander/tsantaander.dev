@@ -6,12 +6,9 @@ import { useTheme } from 'next-themes';
 import styles from '@/styles/themeToggle.module.css';
 import { useResponsive } from '@/context/ResponsiveContext';
 
-type AnimatedThemeTogglerProps = {
-  className?: string;
-};
 
-export const AnimatedThemeToggler = ({ className }: AnimatedThemeTogglerProps) => {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+export const AnimatedThemeToggler = () => {
+  const { setTheme, resolvedTheme } = useTheme();
   const { isMobile } = useResponsive();
   const [mounted, setMounted] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);

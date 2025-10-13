@@ -1,11 +1,9 @@
 "use client"
 import React, { useState, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
-import { useTheme } from 'next-themes'
 import { ExternalLink, Github, Code2, Palette, Database, Zap, LucideIcon } from 'lucide-react'
 import { GlowingEffect } from '@/components/ui/glowing-effect'
 import { Badge } from '@/components/ui/badge'
-import DotGrid from '@/components/ui/dotgrid'
 import { useResponsive } from '@/context/ResponsiveContext'
 
 // Tipos TypeScript
@@ -16,13 +14,13 @@ interface Project {
   image: string
   technologies: string[]
   type: 'FullStack' | 'Frontend' | 'Backend'
-  category: 'Personales' | 'Clientes' | 'Tegma Solutions' | 'Open Source'
+  category: 'Personales' | 'Tegma Solutions' | 'Open Source'
   githubUrl: string
   liveUrl: string
   featured: boolean
 }
 
-type TypesFilter = 'Todos' | 'Personales' | 'Clientes' | 'Tegma Solutions' | 'Open Source'
+type TypesFilter = 'Todos' | 'Personales' | 'Tegma Solutions' | 'Open Source'
 
 
 interface ProjectCardProps {
@@ -61,7 +59,7 @@ const projectsData: Project[] = [
     id: 3,
     title: "AiHire",
     description: "App Full Stack para practicar entrevistas con IA. Simulaciones personalizadas, retroalimentación en tiempo real sobre habilidades técnicas y comunicativas. Ideal para candidatos y reclutadores.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+    image: "/images/aihire.jpg",
     technologies: ["React", "D3.js", "FastAPI", "PostgreSQL", "Redis"],
     type: "FullStack",
     category: "Personales",
@@ -71,6 +69,30 @@ const projectsData: Project[] = [
   },
   {
     id: 4,
+    title: "Centro Médico San Fernando Salud",
+    description: "Aplicación web solicitada por nuestro cliente SISA Médica, el cual es un centro de imagenología que buscaba mejorar su plataforma web, posicionamiento SEO y experiencia de usuario. Por lo que se implemento una migración de su sitio en Wordpress a Next.js",
+    image: "/images/sfs.png",
+    technologies: ["Next.js", "React", "TypeScript", "Node.js", "Strapi", "Tailwind CSS"],
+    type: "FullStack",
+    category: "Tegma Solutions",
+    githubUrl: "https://github.com",
+    liveUrl: "https://sanfernandosaludcl.vercel.app",
+    featured: true
+  },
+  {
+    id: 5,
+    title: "SISA Médica",
+    description: "Aplicación web solicitada por nuestro cliente SISA Médica, el cual es un centro de imagenología que buscaba mejorar su plataforma web, posicionamiento SEO y experiencia de usuario. Por lo que se implemento una migración de su sitio en Wordpress a Next.js",
+    image: "/images/sisamedica.png",
+    technologies: ["Next.js", "React", "TypeScript", "Node.js", "Supabase", "Tailwind CSS"],
+    type: "FullStack",
+    category: "Tegma Solutions",
+    githubUrl: "https://github.com",
+    liveUrl: "https://sisamedica.cl",
+    featured: true
+  },
+   {
+    id: 6,
     title: "SmartWatt",
     description: "Aplicación móvil de métricas de energía en un hogar, comunicandose con un circuito manejado con Arduino ",
     image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop",
@@ -79,22 +101,10 @@ const projectsData: Project[] = [
     category: "Open Source",
     githubUrl: "https://github.com",
     liveUrl: "https://example.com",
-    featured: true
+    featured: false
   },
   {
-    id: 5,
-    title: "SISA Médica",
-    description: "Aplicación web ",
-    image: "/images/sisamedica.png",
-    technologies: ["Vue.js", "Node.js", "OpenWeather API", "Charts.js"],
-    type: "FullStack",
-    category: "Clientes",
-    githubUrl: "https://github.com",
-    liveUrl: "https://example.com",
-    featured: true
-  },
-  {
-    id: 6,
+    id: 7,
     title: "CCTV Monitor",
     description: "Plataforma de seguimiento de criptomonedas con análisis técnico, alertas de precios y portfolio personal.",
     image: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&h=400&fit=crop",
@@ -116,7 +126,7 @@ const typesIcons: Record<Project['type'], LucideIcon> = {
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isVisible }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false)
   const { isMobile } = useResponsive()
-  
+
   const TypeIcon = typesIcons[project.type]
 
   const handleMouseEnter = (): void => {
@@ -131,29 +141,31 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isVisible }) 
     <motion.div
       initial={{ opacity: 0, y: 50 }}
       animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ 
-        duration: 0.6, 
+      transition={{
+        duration: 0.6,
         delay: index * 0.1,
         ease: [0.22, 1, 0.36, 1]
       }}
-      className={`group relative h-full ${project.featured ? 'md:col-span-2' : ''}`}
+      className={`group relative h-full z-20 rounded-2xl ${project.featured ? 'md:col-span-2' : ''}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Contenedor principal con efecto glassmorphism */}
-      <div className="relative h-full bg-white/10 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-white/20 dark:border-white/10 overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl">
-
-      {!isMobile && <GlowingEffect
-            blur={0}
-            borderWidth={3}
-            spread={80}
-            glow={true}
-            disabled={false}
-            proximity={64}
-            inactiveZone={0.01}
-          />}
-        
-
+      <div className="relative h-full group/glow">
+        {!isMobile && (
+          <div className="absolute inset-0 rounded-2xl -z-10 transform-gpu transition-transform duration-500 group-hover/glow:scale-[1.02]">
+            <GlowingEffect
+              blur={0}
+              borderWidth={3}
+              spread={80}
+              glow={true}
+              disabled={false}
+              proximity={64}
+              inactiveZone={0.01}
+            />
+          </div>
+        )}
+        <div className="relative h-full bg-white/10 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-white/20 dark:border-white/10 overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl">
         {/* Imagen del proyecto */}
         <div className="relative h-48 md:h-56 overflow-hidden">
           <motion.img
@@ -163,10 +175,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isVisible }) 
             animate={{ scale: isHovered ? 1.1 : 1 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           />
-          
+
           {/* Overlay con gradiente */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-          
+
           {/* Badge de categoría */}
           <motion.div
             className="absolute top-4 left-4 flex items-center gap-2 bg-black/30 backdrop-blur-sm px-3 py-2 rounded-lg"
@@ -252,14 +264,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isVisible }) 
                 key={tech}
                 initial={{ opacity: 0, scale: 0 }}
                 animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-                transition={{ 
+                transition={{
                   delay: (index * 0.1) + 0.5 + (techIndex * 0.05),
                   type: "spring",
                   stiffness: 300
                 }}
               >
-                <Badge 
-                  variant="secondary" 
+                <Badge
+                  variant="secondary"
                   className="bg-gray-200/50 dark:bg-gray-700/50 hover:bg-blue-500 hover:text-white transition-colors duration-300 cursor-default"
                 >
                   {tech}
@@ -268,40 +280,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isVisible }) 
             ))}
           </motion.div>
         </div>
-
-        {/* Efecto de partículas en hover */}
-        <AnimatePresence>
-          {isHovered && (
-            <motion.div
-              className="absolute inset-0 pointer-events-none"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              {Array.from({ length: 8 }, (_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-1 h-1 bg-blue-400 rounded-full"
-                  initial={{
-                    x: `${Math.random() * 100}%`,
-                    y: `${Math.random() * 100}%`,
-                    scale: 0
-                  }}
-                  animate={{
-                    scale: [0, 1, 0],
-                    opacity: [0, 1, 0]
-                  }}
-                  transition={{
-                    duration: 2,
-                    delay: i * 0.1,
-                    repeat: Infinity,
-                    repeatDelay: 1
-                  }}
-                />
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        </div>
       </div>
     </motion.div>
   )
@@ -312,10 +291,10 @@ const ProjectsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
   const isVisible = useInView(sectionRef, { once: true, amount: 'some' })
 
-  const types: TypesFilter[] = ['Todos', 'Personales', 'Clientes', 'Tegma Solutions', 'Open Source']
-  
-  const filteredProjects: Project[] = filter === 'Todos' 
-    ? projectsData 
+  const types: TypesFilter[] = ['Todos', 'Personales', 'Tegma Solutions', 'Open Source']
+
+  const filteredProjects: Project[] = filter === 'Todos'
+    ? projectsData
     : projectsData.filter((project: Project) => project.category === filter)
 
   const handleFilterChange = (type: TypesFilter): void => {
@@ -324,21 +303,15 @@ const ProjectsSection: React.FC = () => {
 
   return (
     <section id="projects" className="relative min-h-screen py-20">
-      {/* Fondo interactivo con DotGrid */}
-      <div className="absolute inset-0 -z-10">
-        <DotGrid
-          dotSize={3}
-          gap={20}
-          baseColor="#d1d5db"
-          darkBaseColor="#374151"
-          activeColor="#3b82f6"
-          proximity={120}
-          shockRadius={200}
-          shockStrength={0.8}
-          resistance={400}
-          returnDuration={1.2}
-        />
-      </div>
+
+      {/* Azure Depths */}
+      <div
+        className="absolute inset-0 -z-10"
+        style={{
+          background: "radial-gradient(125% 125% at 50% 0%, #000000 40%, #00187A 100%)",
+        }}
+      />
+
 
       <div className="container mx-auto px-4 lg:px-8" ref={sectionRef}>
         {/* Header de la sección */}
@@ -355,24 +328,24 @@ const ProjectsSection: React.FC = () => {
             transition={{ delay: 0.2, duration: 0.6 }}
           >
           </motion.div>
-          
+
           <motion.h2
-            className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-br from-gray-900 via-blue-800 to-gray-900 dark:from-blue-700 dark:via-blue-500 dark:to-blue-400 bg-clip-text text-transparent mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-b from-white from-30% to-white/30 bg-clip-text text-transparent text-balance leading-none tracking-tighte mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
             Proyectos Destacados
           </motion.h2>
-          <div className="bg-gradient-to-br from-blue-600 via-blue-400 to-purple-600 max-w-sm h-1 mx-auto rounded-full mb-4" />
-          
+          <div className="bg-gradient-to-r from-blue-700 via-blue-400 to-blue-700 max-w-42 sm:max-w-sm h-1 mx-auto rounded-full mb-4" />
+
           <motion.p
             className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            Una selección de mis trabajos más recientes, donde combino creatividad, 
+            Una selección de mis trabajos más recientes, donde combino creatividad,
             tecnología y funcionalidad para crear soluciones digitales innovadoras
           </motion.p>
         </motion.div>
@@ -388,11 +361,10 @@ const ProjectsSection: React.FC = () => {
             <motion.button
               key={type}
               onClick={() => handleFilterChange(type)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                filter === type
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
-                  : 'bg-white/10 dark:bg-white/5 backdrop-blur-sm border border-white/20 dark:border-white/10 hover:bg-blue-600/10 hover:border-blue-600/30'
-              }`}
+              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${filter === type
+                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                : 'bg-white/10 dark:bg-white/5 backdrop-blur-sm border border-white/20 dark:border-white/10 hover:bg-blue-600/10 hover:border-blue-600/30'
+                }`}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
               transition={{ delay: 0.6 + index * 0.1 }}
@@ -422,36 +394,8 @@ const ProjectsSection: React.FC = () => {
             ))}
           </AnimatePresence>
         </motion.div>
-
-        {/* CTA Section */}
-        <motion.div
-          className="text-center mt-20"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ delay: 1, duration: 0.8 }}
-        >
-          <motion.div
-            className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 backdrop-blur-sm border border-white/20 dark:border-white/10 rounded-2xl p-8 max-w-2xl mx-auto"
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              ¿Tienes un proyecto en mente?
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Colaboremos para convertir tus ideas en realidad digital
-            </p>
-            <motion.button
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-8 py-3 rounded-full transition-all duration-300 shadow-lg shadow-blue-600/30 hover:shadow-xl hover:shadow-blue-600/40"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Iniciar Conversación
-            </motion.button>
-          </motion.div>
-        </motion.div>
       </div>
-    </section>
+    </section >
   )
 }
 

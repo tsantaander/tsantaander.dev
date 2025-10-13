@@ -47,12 +47,12 @@ export const StackEspecializado = () => {
         color: "hover:bg-indigo-600",
       },
       {
-        name: "Zustand",
-        color: "hover:bg-stone-700",
+        name: "Supabase",
+        color: "hover:bg-green-700",
       },
       {
         name: "Shadcn UI",
-        color: "hover:bg-emerald-800",
+        color: "hover:bg-sky-800",
       },
     ]
     return (

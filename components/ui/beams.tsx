@@ -319,7 +319,7 @@ import {
             opacity: beamSettings.materialOpacity,
           },
         }),
-      [speed, noiseIntensity, scale, beamSettings.beamColor]
+      [speed, noiseIntensity, scale, beamSettings.beamColor, beamSettings.materialOpacity]
     );
   
     return (
