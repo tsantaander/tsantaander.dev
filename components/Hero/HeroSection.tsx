@@ -7,7 +7,7 @@ export default function HeroSection() {
   const { resolvedTheme } = useTheme()
   
   return (
-    <section id="home" className="relative h-[100vh] w-full overflow-hidden flex items-center">
+    <section id="home" className="relative h-screen w-full overflow-hidden flex items-center">
       <div style={{ width: '100%', height: '100%', position: 'absolute' }}>
         <Beams
           beamWidth={3}

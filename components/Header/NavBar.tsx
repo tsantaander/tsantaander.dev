@@ -46,9 +46,10 @@ export default function NavBar({ items = navItems }: NavBarProps) {
         });
       },
       {
-        // El umbral (threshold) de 0.5 significa que la sección se considera activa
-        // cuando al menos el 50% de ella es visible.
-        threshold: 0.5,  
+        // Reducimos el threshold para que sea más sensible
+        // rootMargin negativo para activar antes de que la sección llegue al top
+        threshold: [0.01],
+        rootMargin: "-20% 0px -60% 0px"
       }
     );
     const sections = items.map((item) => document.getElementById(item.url));

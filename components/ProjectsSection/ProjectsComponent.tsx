@@ -177,7 +177,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isVisible }) 
           />
 
           {/* Overlay con gradiente */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
 
           {/* Badge de categoría */}
           <motion.div
@@ -193,7 +193,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isVisible }) 
           {/* Featured badge */}
           {project.featured && (
             <motion.div
-              className="absolute top-4 right-4 bg-gradient-to-r from-blue-500 to-purple-600 px-3 py-1 rounded-full"
+              className="absolute top-4 right-4 bg-linear-to-r from-blue-500 to-purple-600 px-3 py-1 rounded-full"
               initial={{ opacity: 0, scale: 0 }}
               animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
               transition={{ delay: (index * 0.1) + 0.4, type: "spring", stiffness: 300 }}
@@ -330,14 +330,14 @@ const ProjectsSection: React.FC = () => {
           </motion.div>
 
           <motion.h2
-            className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-b from-white from-30% to-white/30 bg-clip-text text-transparent text-balance leading-none tracking-tighte mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold bg-linear-to-b from-white from-30% to-white/30 bg-clip-text text-transparent text-balance leading-none tracking-tighte mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
             Proyectos Destacados
           </motion.h2>
-          <div className="bg-gradient-to-r from-blue-700 via-blue-400 to-blue-700 max-w-42 sm:max-w-sm h-1 mx-auto rounded-full mb-4" />
+          <div className="bg-linear-to-r from-blue-700 via-blue-400 to-blue-700 max-w-42 sm:max-w-sm h-1 mx-auto rounded-full mb-4" />
 
           <motion.p
             className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"

@@ -32,13 +32,13 @@ const contactMethods = [
   {
     name: "WhatsApp",
     icon: TbBrandWhatsapp,
-    href: "https://wa.me/56912345678", // Reemplaza con tu número real
+    href: "https://wa.me/56922248745", // Reemplaza con tu número real
     color: "hover:text-green-600 dark:hover:text-green-400"
   },
   {
     name: "Tegma Solutions",
     icon: TbWorld,
-    href: "https://tegmasolutions.cl", // Reemplaza con tu URL real
+    href: "https://linkstegmasolutions.vercel.app", // Reemplaza con tu URL real
     color: "hover:text-blue-600 dark:hover:text-blue-600"
   }
 ]
@@ -92,7 +92,7 @@ const ContactSection = () => {
   return (
     <section 
       ref={sectionRef}
-      id="contacto" 
+      id="contact" 
       className="w-full pt-20 pb-20 bg-white"
       style={{
         background: "radial-gradient(125% 125% at 50% 100%, #000000 40%, #00187A 100%)"
@@ -115,7 +115,7 @@ const ContactSection = () => {
             Contacto
           </motion.h2>
           <motion.div 
-            className="bg-gradient-to-r from-blue-700 via-blue-400 to-blue-700 max-w-20 h-1 mx-auto rounded-full mb-6"
+            className="bg-linear-to-r from-blue-700 via-blue-400 to-blue-700 max-w-20 h-1 mx-auto rounded-full mb-6"
             initial={{ width: 0 }}
             animate={isVisible ? { width: "5rem" } : { width: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}

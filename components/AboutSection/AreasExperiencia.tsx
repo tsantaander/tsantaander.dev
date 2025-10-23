@@ -76,6 +76,37 @@ const areasExperiencia: AreaExperiencia[] = [
       { nombre: 'Nginx', nivel: 'Inicial' },
     ],
     experiencia: '1+ año'
+  },
+  {
+    id: 'knowledge',
+    titulo: 'Otros Conocimientos',
+    descripcion: 'Utilizando herramientas modernas para mejorar la eficiencia y productividad.',
+    icono: <DevOpsIcon className="size-8 mb-2" />,
+    tecnologias: [
+      { nombre: 'Linux', nivel: 'Intermedio-Avanzado' },
+      { nombre: 'Windows', nivel: 'Intermedio' },
+      { nombre: 'Metodologías ágiles', nivel: 'Intermedio' },
+      { nombre: 'VSCode', nivel: 'Intermedio' },
+      { nombre: 'Figma', nivel: 'Intermedio' },
+      { nombre: 'Jira', nivel: 'Intermedio' },
+    ],
+    experiencia: '1+ año'
+  },
+  {
+    id: 'tools',
+    titulo: 'Herramientas',
+    descripcion: 'Utilizando herramientas modernas para mejorar la eficiencia y productividad.',
+    icono: <DevOpsIcon className="size-8 mb-2" />,
+    tecnologias: [
+      { nombre: 'Linux', nivel: 'Intermedio' },
+      { nombre: 'Git', nivel: 'Intermedio' },
+      { nombre: 'GitHub', nivel: 'Intermedio' },
+      { nombre: 'Windsurf', nivel: 'Intermedio' },
+      { nombre: 'VSCode', nivel: 'Intermedio' },
+      { nombre: 'Figma', nivel: 'Intermedio' },
+      { nombre: 'Jira', nivel: 'Intermedio' },
+    ],
+    experiencia: '1+ año'
   }
 ];
 
@@ -139,7 +170,7 @@ export const AreasDeExperiencia = () => {
                 {/* Imagen/Icono placeholder */}
                 <motion.div
                   layoutId={`image-${active.titulo}-${id}`}
-                  className={`w-full h-28 sm:h-36 rounded-t-2xl sm:rounded-t-3xl flex items-center justify-center bg-gradient-to-br from-blue-700 to-black transition-colors duration-300`}
+                  className={`w-full h-28 sm:h-36 rounded-t-2xl sm:rounded-t-3xl flex items-center justify-center bg-linear-to-br from-blue-700 to-black transition-colors duration-300`}
                 >
                   {React.cloneElement(active.icono, {
                     className: "size-16 sm:size-24 opacity-80"
@@ -217,7 +248,7 @@ export const AreasDeExperiencia = () => {
       )}
 
       {/* Grid de tarjetas */}
-      <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-3 items-center">
+      <div className="mx-auto w-full grid grid-cols-1 md:grid-cols-5 items-center">
         {areasExperiencia.map((area) => (
           <motion.div
             layoutId={`card-${area.titulo}-${id}`}
