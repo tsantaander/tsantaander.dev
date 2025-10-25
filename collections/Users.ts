@@ -6,7 +6,12 @@ export const Users: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'email'],
   },
-  auth: true,
+  auth: {
+    cookies: {
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+      sameSite: 'Lax',
+    },
+  },
   fields: [
     {
       name: 'name',

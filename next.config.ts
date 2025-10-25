@@ -2,14 +2,12 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 
 const nextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: ['payload'],
-  },
+  serverExternalPackages: ['payload'],
   images: {
     domains: [
       'localhost',
       '127.0.0.1',
-      process.env.NEXT_PUBLIC_SERVER_URL?.replace('http://', '').replace('https://', '').replace(':3000', '') || 'localhost'
+      ...(process.env.NEXT_PUBLIC_SERVER_URL?.replace('http://', '').replace('https://', '').replace(':3000', '') ? [process.env.NEXT_PUBLIC_SERVER_URL?.replace('http://', '').replace('https://', '').replace(':3000', '') || 'localhost'] : [])
     ].filter(Boolean),
     unoptimized: true,
   },

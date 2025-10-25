@@ -34,20 +34,15 @@ export default buildConfig({
     'http://127.0.0.1:3000',
     'http://localhost:3001',
     'http://127.0.0.1:3001',
-  ],
-
-  // Admin configuration
-  admin: {
-    user: 'users',
-    autoLogin: {
-      email: 'admin@tsantaander.dev',
-      password: 'admin123',
-      prefillOnly: true,
-    },
-  },
+    'https://tsantaanderdev.vercel.app',
+    'https://www.tsantaanderdev.vercel.app',
+  ].filter(Boolean),
 
   // Server configuration
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+
+  // Cookie configuration for better session handling
+  cookiePrefix: 'payload',
 
   // Upload configuration
   upload: {
