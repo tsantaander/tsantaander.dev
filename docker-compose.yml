@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  payload:
+    image: node:22-alpine
+    ports:
+      - '3000:3000'
+    volumes:
+      - .://home/tsantander/Documentos/Estudio/repositorios/proyectos_personales/tsantaander.dev
+      - node_modules:/home/tsantander/Documentos/Estudio/repositorios/proyectos_personales/tsantaander.dev/node_modules
+    working_dir: /home/tsantander/Documentos/Estudio/repositorios/proyectos_personales/tsantaander.dev
+    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+    depends_on:
+      - mongo
+      # - postgres
+    env_file:
+      - .env.development
+
+  # Ensure your DATABASE_URI uses 'mongo' as the hostname ie. mongodb://mongo/my-db-name
+  mongo:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    command:
+      - --storageEngine=wiredTiger
+    volumes:
+      - data:/data/db
+    
+
+  # Uncomment the following to use postgres
+  # postgres:
+  #   restart: always
+  #   image: postgres:latest
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+
+volumes:
+  data:
+  # pgdata:
+  node_modules:

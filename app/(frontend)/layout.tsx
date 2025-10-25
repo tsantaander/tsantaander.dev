@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/ui/theme-provider"
 import { Inter, Fira_Code} from "next/font/google";
 import { ResponsiveProvider } from "@/context/ResponsiveContext";
+import NavBar from "@/components/Header/NavBar";
 import "@/styles/globals.css";
 
 const inter = Inter({
@@ -70,6 +71,7 @@ export default function RootLayout({
             defaultTheme="dark"
             >
               <ResponsiveProvider>
+                <NavBar />
                 {children}
               </ResponsiveProvider>
         </ThemeProvider>

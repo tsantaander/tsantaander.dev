@@ -1,6 +1,27 @@
 /** @type {import('next').NextConfig} */
+import { withPayload } from '@payloadcms/next/withPayload'
 
 const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: ['payload'],
+  },
+  images: {
+    domains: [
+      'localhost',
+      '127.0.0.1',
+      process.env.NEXT_PUBLIC_SERVER_URL?.replace('http://', '').replace('https://', '').replace(':3000', '') || 'localhost'
+    ].filter(Boolean),
+    unoptimized: true,
+  },
+  // Serve static files from media directory
+  async rewrites() {
+    return [
+      {
+        source: '/media/:path*',
+        destination: '/api/media/file/:path*',
+      },
+    ]
+  },
   turbopack: {
     rules: {
       '*.svg': {
@@ -37,4 +58,4 @@ const nextConfig = {
     return config
   },
 };    
-export default nextConfig;
+export default withPayload(nextConfig);

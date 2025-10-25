@@ -25,6 +25,7 @@ export default function Footer () {
             <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Inicio</Link>
             <a href="#aboutme" className="text-muted-foreground hover:text-primary transition-colors">Acerca de mi</a>
             <a href="#projects" className="text-muted-foreground hover:text-primary transition-colors">Proyectos</a>
+            <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</Link>
             <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">Contacto</a>
           </nav>
         </div>
