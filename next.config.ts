@@ -7,6 +7,8 @@ const nextConfig = {
     domains: [
       'localhost',
       '127.0.0.1',
+      'tsantaander-dev.vercel.app',
+      'www.tsantaander-dev.vercel.app',
       ...(process.env.NEXT_PUBLIC_SERVER_URL?.replace('http://', '').replace('https://', '').replace(':3000', '') ? [process.env.NEXT_PUBLIC_SERVER_URL?.replace('http://', '').replace('https://', '').replace(':3000', '') || 'localhost'] : [])
     ].filter(Boolean),
     unoptimized: true,
