@@ -34,8 +34,8 @@ export default buildConfig({
     'http://127.0.0.1:3000',
     'http://localhost:3001',
     'http://127.0.0.1:3001',
-    'https://tsantaanderdev.vercel.app',
-    'https://www.tsantaanderdev.vercel.app',
+    'https://tsantaander-dev.vercel.app',
+    'https://www.tsantaander-dev.vercel.app',
   ].filter(Boolean),
 
   // Server configuration
