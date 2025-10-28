@@ -40,8 +40,8 @@ export default async function BlogPage() {
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-linear-to-b from-blue-50 to-background dark:from-blue-950/20 dark:to-background">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mt-12 mb-6 bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Blog
+          <h1 className="text-2xl sm:text-5xl font-bold mt-20 mb-6 bg-radial from-blue-400 to-blue-600 bg-clip-text text-transparent">
+            Código, Creación y Conocimiento
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Comparto mis experiencias, aprendizajes y conocimientos sobre desarrollo web, 
@@ -56,7 +56,7 @@ export default async function BlogPage() {
           {posts.length > 0 ? (
             <BlogList initialPosts={posts} />
           ) : (
-            <div className="text-center py-20">
+            <div className="text-center py-10">
               <p className="text-gray-500 dark:text-gray-400 text-lg">
                 Aún no hay publicaciones disponibles. ¡Vuelve pronto!
               </p>
