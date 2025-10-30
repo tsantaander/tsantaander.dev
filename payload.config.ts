@@ -5,7 +5,7 @@ import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { buildConfig } from 'payload'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-import { Posts } from './collections/post'
+import { Posts } from './collections/Post'
 
 const isBlobEnabled = Boolean(process.env.BLOB_READ_WRITE_TOKEN)
 

@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import BlogList from '@/components/BlogSection/BlogList'
+import BlogList from '@/components/BlogPage/BlogList'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Post } from '@/types/payload-types'

@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import BlogPost from '@/components/BlogSection/BlogPost'
+import BlogPost from '@/components/BlogPage/BlogPost'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Post } from '@/types/payload-types'

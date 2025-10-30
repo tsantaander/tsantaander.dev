@@ -12,7 +12,6 @@ interface BlogPostProps {
 
 // Función para asegurar que el contenido tenga la estructura correcta
 const formatContent = (content: any) => {
-  console.log('Contenido original:', JSON.stringify(content, null, 2));
   
   // Si ya tiene la estructura correcta, devolverlo
   if (content?.root?.children) {

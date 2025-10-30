@@ -1,6 +1,4 @@
 'use client'
-
-import React, { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 
 // Importar dinámicamente el componente CodeBlock para evitar problemas con SSR

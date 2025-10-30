@@ -145,105 +145,100 @@ export const AreasDeExperiencia = () => {
 
       {/* Portal para Overlay y Modal */}
       {typeof window !== 'undefined' && createPortal(
-        <>
-          {/* Overlay */}
-          <AnimatePresence>
-            {active && typeof active === "object" && (
+        <AnimatePresence>
+          {active && typeof active === "object" && (
+            <>
+              {/* Overlay */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 bg-black/20 h-full w-full z-10"
               />
-            )}
-          </AnimatePresence>
 
-          {/* Modal */}
-          <AnimatePresence>
-            {active && typeof active === "object" ? (
+              {/* Modal */}
               <div className="fixed inset-0 grid place-items-center z-[100] px-6 sm:px-0">
                 <motion.div
                   layoutId={`card-${active.titulo}-${id}`}
                   ref={ref}
                   className="w-full max-w-[600px] max-h-[70%] md:h-fit md:max-h-[90%] mx-4 sm:mx-0 flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl shadow-2xl"
                 >
-                {/* Imagen/Icono placeholder */}
-                <motion.div
-                  layoutId={`image-${active.titulo}-${id}`}
-                  className={`w-full h-28 sm:h-36 rounded-t-2xl sm:rounded-t-3xl flex items-center justify-center bg-linear-to-br from-blue-700 to-black transition-colors duration-300`}
-                >
-                  {React.cloneElement(active.icono, {
-                    className: "size-16 sm:size-24 opacity-80"
-                  })}
-                </motion.div>
+                  {/* Imagen/Icono placeholder */}
+                  <motion.div
+                    layoutId={`image-${active.titulo}-${id}`}
+                    className={`w-full h-28 sm:h-36 rounded-t-2xl sm:rounded-t-3xl flex items-center justify-center bg-linear-to-br from-blue-700 to-black transition-colors duration-300`}
+                  >
+                    {React.cloneElement(active.icono, {
+                      className: "size-16 sm:size-24 opacity-80"
+                    })}
+                  </motion.div>
 
-                <div className="flex-1">
-                  <div className="flex justify-between items-start py-3 sm:py-4 px-4 sm:px-6">
-                    <div className="flex-1 pr-2">
-                      <motion.h3
-                        layoutId={`title-${active.titulo}-${id}`}
-                        className="font-medium text-neutral-700 dark:text-neutral-200 text-lg sm:text-xl"
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start py-3 sm:py-4 px-4 sm:px-6">
+                      <div className="flex-1 pr-2">
+                        <motion.h3
+                          layoutId={`title-${active.titulo}-${id}`}
+                          className="font-medium text-neutral-700 dark:text-neutral-200 text-lg sm:text-xl"
+                        >
+                          {active.titulo}
+                        </motion.h3>
+                        <motion.p
+                          layoutId={`description-${active.descripcion}-${id}`}
+                          className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base"
+                        >
+                          {active.experiencia} de experiencia
+                        </motion.p>
+                      </div>
+
+                      <motion.button
+                        layout
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setActive(null)}
+                        className="hidden sm:flex px-4 py-2 text-sm rounded-full font-bold bg-green-500 hover:bg-green-600 text-white transition-colors"
                       >
-                        {active.titulo}
-                      </motion.h3>
-                      <motion.p
-                        layoutId={`description-${active.descripcion}-${id}`}
-                        className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base"
-                      >
-                        {active.experiencia} de experiencia
-                      </motion.p>
+                        Cerrar
+                      </motion.button>
                     </div>
 
-                    <motion.button
-                      layout
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      onClick={() => setActive(null)}
-                      className="hidden sm:flex px-4 py-2 text-sm rounded-full font-bold bg-green-500 hover:bg-green-600 text-white transition-colors"
-                    >
-                      Cerrar
-                    </motion.button>
-                  </div>
+                    <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+                      <motion.div
+                        layout
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="text-neutral-600 text-sm sm:text-base flex flex-col items-start gap-4 dark:text-neutral-400"
+                      >
+                        <div className="w-full">
+                          <p className="mb-4 sm:mb-6">{active.descripcion}</p>
 
-                  <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                    <motion.div
-                      layout
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="text-neutral-600 text-sm sm:text-base flex flex-col items-start gap-4 dark:text-neutral-400"
-                    >
-                      <div className="w-full">
-                        <p className="mb-4 sm:mb-6">{active.descripcion}</p>
-
-                        <div className="flex flex-col mx-auto w-full items-center justify-center">
-                          <h4 className="font-semibold mb-3 sm:mb-4 text-neutral-700 dark:text-neutral-200 text-base sm:text-lg">Tecnologías</h4>
-                          <div className="space-y-3 sm:space-y-4 w-full">
-                            {active.tecnologias.map((tech, index) => (
-                              <div key={index} className="space-y-1.5 w-full">
-                                <div className="flex justify-between items-center text-xs sm:text-sm">
-                                  <span className="font-medium text-neutral-700 dark:text-neutral-300">{tech.nombre}</span>
-                                  <span className="text-xs sm:text-sm font-medium text-neutral-500">{tech.nivel}</span>
+                          <div className="flex flex-col mx-auto w-full items-center justify-center">
+                            <h4 className="font-semibold mb-3 sm:mb-4 text-neutral-700 dark:text-neutral-200 text-base sm:text-lg">Tecnologías</h4>
+                            <div className="space-y-3 sm:space-y-4 w-full">
+                              {active.tecnologias.map((tech, index) => (
+                                <div key={index} className="space-y-1.5 w-full">
+                                  <div className="flex justify-between items-center text-xs sm:text-sm">
+                                    <span className="font-medium text-neutral-700 dark:text-neutral-300">{tech.nombre}</span>
+                                    <span className="text-xs sm:text-sm font-medium text-neutral-500">{tech.nivel}</span>
+                                  </div>
+                                  <Progress 
+                                    value={nivelAValor(tech.nivel)} 
+                                    className="h-2 bg-neutral-200 dark:bg-neutral-800"
+                                  />
                                 </div>
-                                <Progress 
-                                  value={nivelAValor(tech.nivel)} 
-                                  className="h-2 bg-neutral-200 dark:bg-neutral-800"
-                                />
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
-                          
                         </div>
-                      </div>
-                    </motion.div>
+                      </motion.div>
+                    </div>
                   </div>
-                </div>
                 </motion.div>
               </div>
-            ) : null}
-          </AnimatePresence>
-        </>,
+            </>
+          )}
+        </AnimatePresence>,
         document.body
       )}
 
@@ -260,7 +255,7 @@ export const AreasDeExperiencia = () => {
               whileHover={{ scale: 1.08 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
               layoutId={`image-${area.titulo}-${id}`}
-              className={`h-24 w-full gap-4 rounded-lg flex items-center justify-center bg-gradient-to-br from-blue-500 via-blue-600 to-blue-300 dark:bg-gradient-to-br dark:from-blue-600/55 dark:to-black/55 transition-colors duration-300`}
+              className={`h-24 w-full gap-4 rounded-lg flex items-center justify-center bg-linear-to-br from-blue-500 via-blue-600 to-blue-300 dark:bg-gradient-to-br dark:from-blue-600/55 dark:to-black/55 transition-colors duration-300`}
             >
               {React.cloneElement(area.icono, {
                 className: "size-14 text-white opacity-90"
@@ -281,7 +276,6 @@ export const AreasDeExperiencia = () => {
                 </motion.p>
               </div>
             </motion.div>
-
           </motion.div>
         ))}
       </div>
