@@ -1,26 +1,63 @@
-/** @type {import('next').NextConfig} */
+import type { NextConfig } from 'next'
 import { withPayload } from '@payloadcms/next/withPayload'
 
-const nextConfig = {
+// Configuración de patrones remotos
+const getRemotePatterns = () => {
+  const patterns = [
+    // Localhost
+    {
+      protocol: 'http' as const,
+      hostname: 'localhost',
+    },
+    {
+      protocol: 'https' as const,
+      hostname: 'localhost',
+    },
+    // Vercel deployments
+    {
+      protocol: 'https' as const,
+      hostname: 'tsantaander-dev.vercel.app',
+    },
+    {
+      protocol: 'https' as const,
+      hostname: 'www.tsantaander-dev.vercel.app',
+    },
+  ]
+
+  // Agregar URL del servidor desde variables de entorno
+  if (process.env.NEXT_PUBLIC_SERVER_URL) {
+    try {
+      const url = new URL(process.env.NEXT_PUBLIC_SERVER_URL)
+      patterns.push({
+        protocol: url.protocol.replace(':', '') as 'http' | 'https',
+        hostname: url.hostname,
+      })
+    } catch (e) {
+      console.error('Invalid NEXT_PUBLIC_SERVER_URL:', process.env.NEXT_PUBLIC_SERVER_URL)
+    }
+  }
+
+  // Agregar URL de blob storage
+  if (process.env.NEXT_PUBLIC_BLOB_BASE_URL) {
+    try {
+      const url = new URL(process.env.NEXT_PUBLIC_BLOB_BASE_URL)
+      patterns.push({
+        protocol: 'https',
+        hostname: url.hostname,
+      })
+    } catch (e) {
+      console.error('Invalid NEXT_PUBLIC_BLOB_BASE_URL:', process.env.NEXT_PUBLIC_BLOB_BASE_URL)
+    }
+  }
+
+  return patterns
+}
+
+const nextConfig: NextConfig = {
   serverExternalPackages: ['payload'],
   images: {
-    domains: [
-      'localhost',
-      '127.0.0.1',
-      'tsantaander-dev.vercel.app',
-      'www.tsantaander-dev.vercel.app',
-      ...(process.env.NEXT_PUBLIC_SERVER_URL?.replace('http://', '').replace('https://', '').replace(':3000', '') ? [process.env.NEXT_PUBLIC_SERVER_URL?.replace('http://', '').replace('https://', '').replace(':3000', '') || 'localhost'] : [])
-    ].filter(Boolean),
+    remotePatterns: getRemotePatterns(),
     unoptimized: true,
-  },
-  // Serve static files from media directory
-  async rewrites() {
-    return [
-      {
-        source: '/media/:path*',
-        destination: '/api/media/file/:path*',
-      },
-    ]
   },
   turbopack: {
     rules: {

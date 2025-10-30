@@ -1,10 +1,27 @@
 import sharp from 'sharp'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { buildConfig } from 'payload'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Posts } from './collections/post'
+
+const isBlobEnabled = Boolean(process.env.BLOB_READ_WRITE_TOKEN)
+
+type VercelBlobCollections = NonNullable<
+  Parameters<typeof vercelBlobStorage>[0]
+>['collections']
+
+const mediaCollectionConfig: VercelBlobCollections = process.env.BLOB_MEDIA_PREFIX
+  ? {
+      media: {
+        prefix: process.env.BLOB_MEDIA_PREFIX,
+      },
+    }
+  : {
+      media: true,
+    }
 
 export default buildConfig({
   // If you'd like to use Rich Text, pass your editor here
@@ -55,4 +72,13 @@ export default buildConfig({
       fileSize: 5000000, // 5MB
     },
   },
+
+  plugins: [
+    vercelBlobStorage({
+      enabled: isBlobEnabled,
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      collections: mediaCollectionConfig,
+      clientUploads: process.env.BLOB_CLIENT_UPLOADS === 'true',
+    }),
+  ],
 })

@@ -4,11 +4,75 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import type { Post } from '@/types/payload-types'
-import RichTextRenderer from './RichTextRenderer'
+import RichTextRenderer from '@/components/RichText/index'
 
 interface BlogPostProps {
   post: Post
 }
+
+// Función para asegurar que el contenido tenga la estructura correcta
+const formatContent = (content: any) => {
+  console.log('Contenido original:', JSON.stringify(content, null, 2));
+  
+  // Si ya tiene la estructura correcta, devolverlo
+  if (content?.root?.children) {
+    return content;
+  }
+  
+  // Si es un array, asumimos que son los children
+  if (Array.isArray(content)) {
+    return { root: { children: content } };
+  }
+  
+  // Si es un objeto con children, envolverlo en root
+  if (content?.children) {
+    return { root: { children: content.children } };
+  }
+  
+  // Si es un bloque de código de Payload
+  if (content?.blockType === 'code' || content?.type === 'code') {
+    return {
+      root: {
+        children: [{
+          type: 'block',
+          blockType: 'code',
+          fields: {
+            language: content.language || 'text',
+            code: content.code || ''
+          }
+        }]
+      }
+    };
+  }
+  
+  // Si es un string, crear un párrafo con ese texto
+  if (typeof content === 'string') {
+    return {
+      root: {
+        children: [
+          {
+            type: 'p',
+            children: [{ text: content }]
+          }
+        ]
+      }
+    };
+  }
+  
+  // Si no se reconoce el formato, devolver un mensaje de error
+  return {
+    root: {
+      children: [
+        {
+          type: 'p',
+          children: [{ 
+            text: 'No se pudo cargar el contenido. Tipo: ' + (content ? typeof content : 'undefined') 
+          }]
+        }
+      ]
+    }
+  };
+};
 
 export default function BlogPost({ post }: BlogPostProps) {
   const formatDate = (dateString: string) => {
@@ -20,7 +84,7 @@ export default function BlogPost({ post }: BlogPostProps) {
     }).format(date)
   }
 
-
+  console.log('Contenido del post:', JSON.stringify(post.content, null, 2));
   return (
     <article className="max-w-4xl mx-auto mt-20">
       {/* Breadcrumb */}
@@ -150,7 +214,7 @@ export default function BlogPost({ post }: BlogPostProps) {
         transition={{ duration: 0.5, delay: 0.4 }}
         className="mb-12"
       >
-        <RichTextRenderer content={post.content} />
+        <RichTextRenderer data={formatContent(post.content)} />
       </motion.div>
 
       {/* Footer */}

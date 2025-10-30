@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload'
-import path from 'path'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -10,7 +9,6 @@ export const Media: CollectionConfig = {
     read: () => true, // Allow public read access to all media files
   },
   upload: {
-    staticDir: path.resolve(process.cwd(), 'media'),
     imageSizes: [
       {
         name: 'thumbnail',

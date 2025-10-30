@@ -217,7 +217,7 @@ export interface Post {
    */
   featuredImage: string | Media;
   /**
-   * Contenido completo de la publicación (soporta imágenes)
+   * Contenido completo de la publicación (soporta imágenes y código)
    */
   content: {
     root: {

@@ -1,5 +1,9 @@
 import type { CollectionConfig } from 'payload'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import {
+  lexicalEditor,
+  BlocksFeature,
+  CodeBlock
+} from '@payloadcms/richtext-lexical'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
@@ -52,9 +56,27 @@ export const Posts: CollectionConfig = {
       required: true,
       label: 'Contenido',
       admin: {
-        description: 'Contenido completo de la publicación (soporta imágenes)',
+        description: 'Contenido completo de la publicación (soporta imágenes y código)',
       },
-      editor: lexicalEditor({}),
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [
+          ...defaultFeatures,
+          // Bloque de código con resaltado de sintaxis
+          BlocksFeature({
+            blocks: [
+              CodeBlock({
+                defaultLanguage: 'ts',
+                languages: {
+                  js: 'JavaScript',
+                  plaintext: 'Plain Text',
+                  ts: 'TypeScript',
+                  mm: 'Mermaid',
+                },
+              }),
+            ],
+          }),
+        ],
+      }),
     },
     {
       name: 'author',
