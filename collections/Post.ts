@@ -4,6 +4,7 @@ import {
   BlocksFeature,
   CodeBlock
 } from '@payloadcms/richtext-lexical'
+import { PostTechnologies } from '../components/RichText/CustomBlock/Blocks'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
@@ -73,6 +74,7 @@ export const Posts: CollectionConfig = {
                   mm: 'Mermaid',
                 },
               }),
+              PostTechnologies, // Custom block de tecnologías
             ],
           }),
         ],

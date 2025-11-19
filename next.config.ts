@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next'
 import { withPayload } from '@payloadcms/next/withPayload'
+import million from "million/compiler";
 
 // Configuración de patrones remotos
 const getRemotePatterns = () => {
@@ -94,5 +95,15 @@ const nextConfig: NextConfig = {
 
     return config
   },
-};    
-export default withPayload(nextConfig);
+}
+
+const millionConfig = {
+  auto: {
+    rsc: true, // Next.js 13+ con React Server Components
+  },
+}
+
+// Aplicar Million.js primero, luego Payload
+// @ts-ignore - Million.js tiene conflictos de tipos con NextConfig
+const configWithMillion = million.next(nextConfig, millionConfig)
+export default withPayload(configWithMillion)

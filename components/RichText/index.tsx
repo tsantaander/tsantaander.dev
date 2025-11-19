@@ -1,8 +1,9 @@
 'use client'
 import dynamic from 'next/dynamic';
 
-// Importar dinámicamente el componente CodeBlock para evitar problemas con SSR
+// Importar dinámicamente los componentes personalizados para evitar problemas con SSR
 const CodeBlock = dynamic(() => import('./CodeBlock'), { ssr: false });
+const PostTechnologiesBlock = dynamic(() => import('./CustomBlock/PostTechnologies'), { ssr: false });
 
 // Definir tipos para el contenido de rich text
 type RichTextNode = {
@@ -141,6 +142,18 @@ const RichTextNode: React.FC<{ node: RichTextNode }> = ({ node }) => {
         language={language}
         code={code}
         className="my-6"
+      />
+    );
+  }
+
+  // 🌟 Custom Block: PostTechnologies
+  if (node.type === 'block' && node.fields?.blockType === 'PostTechnologies') {
+    return (
+      <PostTechnologiesBlock
+        title={node.fields.title}
+        showTitle={node.fields.showTitle}
+        technologies={node.fields.technologies || []}
+        centerIcon={node.fields.centerIcon}
       />
     );
   }

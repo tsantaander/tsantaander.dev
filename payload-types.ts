@@ -459,6 +459,41 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PostTechnologiesBlock".
+ */
+export interface PostTechnologiesBlock {
+  /**
+   * Título opcional para mostrar sobre el orbe de tecnologías
+   */
+  title?: string | null;
+  showTitle?: boolean | null;
+  /**
+   * Icono a mostrar en el centro del orbe
+   */
+  centerIcon?: ('custom' | 'nextjs' | 'react' | 'typescript') | null;
+  technologies: {
+    technology:
+      | 'nextjs'
+      | 'react'
+      | 'shadcn'
+      | 'typescript'
+      | 'supabase'
+      | 'tanstack'
+      | 'postgresql'
+      | 'tailwind'
+      | 'git'
+      | 'graphql'
+      | 'python'
+      | 'mongodb'
+      | 'docker';
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'PostTechnologies';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
