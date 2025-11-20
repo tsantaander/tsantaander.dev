@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider"
 import { Inter, Fira_Code} from "next/font/google";
 import { ResponsiveProvider } from "@/context/ResponsiveContext";
 import NavBar from "@/components/Header/NavBar";
+import AIAgentModal from "@/components/Agent/AgentModal";
 import "@/styles/globals.css";
 
 const inter = Inter({
@@ -73,6 +74,7 @@ export default function RootLayout({
               <ResponsiveProvider>
                 <NavBar />
                 {children}
+                <AIAgentModal />
               </ResponsiveProvider>
         </ThemeProvider>
       </body>
