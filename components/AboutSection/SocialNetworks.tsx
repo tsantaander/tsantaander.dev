@@ -14,46 +14,52 @@ export const SocialNetworks = () => {
         name: "Github",
         icon: TbBrandGithub,
         href: "https://github.com/tsantaander",
-        color: "hover:bg-gradient-to-br from-purple-400 to-purple-800",
+        color: "hover:bg-linear-to-br hover:from-purple-500 hover:to-purple-700",
+        bgColor: "bg-slate-100 dark:bg-slate-800",
       },
       {
         name: "Linkedin",
         icon: TbBrandLinkedin,
         href: "https://www.linkedin.com/in/tomas-santander/",
-        color: "hover:bg-gradient-to-br from-blue-400 to-blue-800",
+        color: "hover:bg-linear-to-br hover:from-blue-500 hover:to-blue-700",
+        bgColor: "bg-slate-100 dark:bg-slate-800",
       },
       {
         name: "Email",
         icon: TbMail,
         href: "x.santander.soto@outlook.cl",
-        color: "hover:bg-gradient-to-br from-rose-400 to-rose-800",
+        color: "hover:bg-linear-to-br hover:from-rose-500 hover:to-rose-700",
+        bgColor: "bg-slate-100 dark:bg-slate-800",
       },
       {
         name: "Instagram",
         icon: TbBrandInstagram,
         href: "https://www.instagram.com/tegmasolutions/",
-        color: "hover:bg-gradient-to-br from-pink-400 to-pink-800",
+        color: "hover:bg-linear-to-br hover:from-pink-500 hover:to-pink-700",
+        bgColor: "bg-slate-100 dark:bg-slate-800",
       },
     ]
     return (
-      <div className="relative z-20 mt-4 sm:mt-0">
+      <div className="relative z-20">
         <div className="flex flex-wrap items-center gap-3">
           {networks.map((network) => (
             <motion.div 
               key={network.name}
               whileHover={{ 
-                scale: 1.2,
-                transition: { type: 'spring', stiffness: 400, damping: 10 }
+                scale: 1.1,
+                y: -3,
               }}
               whileTap={{ scale: 0.95 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 15 }}
             >
               <Link
                 href={network.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`border border-gray-600 hover:border-none p-2 rounded-xl sm:rounded-2xl hover:text-white ${network.color} inline-block transition-colors duration-300`}
+                className={`${network.bgColor} p-3 rounded-xl hover:text-white ${network.color} inline-flex items-center justify-center transition-all duration-300 text-slate-600 dark:text-slate-400 shadow-sm hover:shadow-md`}
+                aria-label={network.name}
               >
-                <network.icon className="size-5 sm:size-6 md:size-7 lg:size-8" />
+                <network.icon className="size-5 sm:size-6" />
               </Link>
             </motion.div>
           ))}

@@ -1,12 +1,11 @@
 "use client"
-import React, { useState, useEffect, useId, useRef } from "react"
-import { createPortal } from "react-dom"
-import { motion, AnimatePresence } from "framer-motion"
+import React, { useState, useEffect, useId, useRef, useCallback, memo } from "react"
+import { AnimatePresence, motion, LayoutGroup } from "motion/react"
 import { BsWindowSplit } from "react-icons/bs"
-import { LuServerCog } from "react-icons/lu"
-import DevOpsIcon from "@/public/icons/devops.svg"
+import { LuServerCog, LuWrench, LuBrain, LuLayers } from "react-icons/lu"
 import { useOutsideClick } from "@/hooks/use-outside-click"
 import { Progress } from "@/components/ui/progress"
+import type { IconType } from "react-icons"
 
 const nivelAValor = (nivel: string): number => {
   const niveles: Record<string, number> = {
@@ -28,7 +27,8 @@ interface AreaExperiencia {
   id: string;
   titulo: string;
   descripcion: string;
-  icono: React.ReactElement<React.SVGProps<SVGSVGElement>>;
+  Icono: IconType;
+  color: string;
   tecnologias: AreaTecnologia[];
   experiencia: string;
 }
@@ -38,7 +38,8 @@ const areasExperiencia: AreaExperiencia[] = [
     id: 'frontend',
     titulo: 'FrontEnd',
     descripcion: 'Creando soluciones mantenibles y elegantes con las últimas tecnologías del ecosistema web moderno.',
-    icono: <BsWindowSplit className="size-8 mb-2" />,
+    Icono: BsWindowSplit,
+    color: 'from-blue-500 to-cyan-500',
     tecnologias: [
       { nombre: 'React', nivel: 'Avanzado' },
       { nombre: 'TypeScript', nivel: 'Intermedio-Avanzado' },
@@ -53,7 +54,8 @@ const areasExperiencia: AreaExperiencia[] = [
     id: 'backend',
     titulo: 'BackEnd',
     descripcion: 'Construyendo APIs robustas y sistemas escalables con las mejores prácticas de desarrollo.',
-    icono: <LuServerCog className="size-8 mb-2" />,
+    Icono: LuServerCog,
+    color: 'from-emerald-500 to-teal-500',
     tecnologias: [
       { nombre: 'Node.js', nivel: 'Intermedio' },
       { nombre: 'Express', nivel: 'Inicial' },
@@ -67,7 +69,8 @@ const areasExperiencia: AreaExperiencia[] = [
     id: 'devops',
     titulo: 'DevOps',
     descripcion: 'Automatizando despliegues y mejorando la integración continua para un desarrollo más eficiente.',
-    icono: <DevOpsIcon className="size-8 mb-2" />,
+    Icono: LuLayers,
+    color: 'from-orange-500 to-amber-500',
     tecnologias: [
       { nombre: 'Docker', nivel: 'Intermedio' },
       { nombre: 'GitHub Actions', nivel: 'Intermedio' },
@@ -79,9 +82,10 @@ const areasExperiencia: AreaExperiencia[] = [
   },
   {
     id: 'knowledge',
-    titulo: 'Otros Conocimientos',
+    titulo: 'Conocimientos',
     descripcion: 'Utilizando herramientas modernas para mejorar la eficiencia y productividad.',
-    icono: <DevOpsIcon className="size-8 mb-2" />,
+    Icono: LuBrain,
+    color: 'from-purple-500 to-pink-500',
     tecnologias: [
       { nombre: 'Linux', nivel: 'Intermedio-Avanzado' },
       { nombre: 'Windows', nivel: 'Intermedio' },
@@ -96,7 +100,8 @@ const areasExperiencia: AreaExperiencia[] = [
     id: 'tools',
     titulo: 'Herramientas',
     descripcion: 'Utilizando herramientas modernas para mejorar la eficiencia y productividad.',
-    icono: <DevOpsIcon className="size-8 mb-2" />,
+    Icono: LuWrench,
+    color: 'from-rose-500 to-red-500',
     tecnologias: [
       { nombre: 'Linux', nivel: 'Intermedio' },
       { nombre: 'Git', nivel: 'Intermedio' },
@@ -110,19 +115,193 @@ const areasExperiencia: AreaExperiencia[] = [
   }
 ];
 
+// Configuración de transición optimizada para GPU
+const layoutTransition = {
+  type: "spring" as const,
+  stiffness: 350,
+  damping: 30,
+  mass: 1,
+};
+
+// Componente de tarjeta memoizado para evitar re-renders
+const AreaCard = memo(({ 
+  area, 
+  id, 
+  onClick 
+}: { 
+  area: AreaExperiencia; 
+  id: string; 
+  onClick: () => void;
+}) => (
+  <motion.div
+    layoutId={`card-${area.id}-${id}`}
+    onClick={onClick}
+    className="p-1 flex flex-col rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/50 will-change-transform"
+    style={{ transform: "translateZ(0)" }}
+    transition={layoutTransition}
+  >
+    <motion.div 
+      layoutId={`image-${area.id}-${id}`}
+      transition={layoutTransition}
+    >
+      <div className={`h-20 sm:h-24 w-full rounded-xl flex flex-col items-center justify-center bg-linear-to-br ${area.color}`}>
+        <area.Icono className="size-6 sm:size-7 text-white mb-1" />
+      </div>
+    </motion.div>
+    <div className="pt-2 px-1">
+      <motion.h3
+        layoutId={`title-${area.id}-${id}`}
+        className="font-medium text-gray-900 dark:text-white text-xs sm:text-sm text-center"
+        transition={layoutTransition}
+      >
+        {area.titulo}
+      </motion.h3>
+      <motion.p
+        layoutId={`exp-${area.id}-${id}`}
+        className="text-slate-500 dark:text-slate-400 text-[10px] sm:text-xs text-center"
+        transition={layoutTransition}
+      >
+        {area.experiencia}
+      </motion.p>
+    </div>
+  </motion.div>
+));
+
+AreaCard.displayName = 'AreaCard';
+
+// Componente del modal memoizado
+const AreaModal = memo(({ 
+  active, 
+  id, 
+  onClose,
+  modalRef
+}: { 
+  active: AreaExperiencia;
+  id: string; 
+  onClose: () => void;
+  modalRef: React.RefObject<HTMLDivElement | null>;
+}) => (
+  <div className="fixed inset-0 z-100 flex items-end sm:items-center sm:justify-center">
+    <motion.div
+      layoutId={`card-${active.id}-${id}`}
+      ref={modalRef}
+      className="w-full sm:max-w-[500px] max-h-[85vh] sm:max-h-[90%] flex flex-col bg-white dark:bg-slate-900 rounded-t-3xl sm:rounded-3xl overflow-hidden will-change-transform shadow-2xl"
+      style={{ transform: "translateZ(0)" }}
+      transition={layoutTransition}
+    >
+      {/* Header con icono y gradiente */}
+      <motion.div 
+        layoutId={`image-${active.id}-${id}`}
+        transition={layoutTransition}
+        className="relative shrink-0"
+      >
+        {/* Indicador de arrastre para móvil */}
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 bg-white/40 rounded-full sm:hidden" />
+        
+        <div className={`w-full h-24 sm:h-40 flex items-center justify-center bg-linear-to-br ${active.color}`}>
+          <active.Icono className="size-10 sm:size-16 text-white" />
+        </div>
+        
+        {/* Botón cerrar flotante en móvil */}
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.15, delay: 0.1 }}
+          onClick={onClose}
+          className="absolute top-3 right-3 p-2 rounded-full bg-black/20 backdrop-blur-sm sm:hidden"
+        >
+          <svg className="size-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </motion.button>
+      </motion.div>
+
+      {/* Contenido scrolleable */}
+      <div className="flex-1 overflow-y-auto overscroll-contain">
+        {/* Título y experiencia */}
+        <div className="flex justify-between items-start p-4 sm:p-5 sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800">
+          <div className="flex-1">
+            <motion.h3
+              layoutId={`title-${active.id}-${id}`}
+              className="font-bold text-gray-900 dark:text-white text-lg sm:text-xl"
+              transition={layoutTransition}
+            >
+              {active.titulo}
+            </motion.h3>
+            <motion.p
+              layoutId={`exp-${active.id}-${id}`}
+              className="text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-medium"
+              transition={layoutTransition}
+            >
+              {active.experiencia} de experiencia
+            </motion.p>
+          </div>
+
+          {/* Botón cerrar en desktop */}
+          <button
+            onClick={onClose}
+            className="hidden sm:flex p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+          >
+            <svg className="size-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Descripción y tecnologías */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15, delay: 0.1 }}
+          className="p-4 sm:p-5 space-y-4"
+        >
+          <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{active.descripcion}</p>
+
+          <div className="w-full">
+            <h4 className="font-semibold text-gray-900 dark:text-white text-sm mb-3">Tecnologías y Nivel</h4>
+            <div className="space-y-2.5">
+              {active.tecnologias.map((tech) => (
+                <div key={tech.nombre} className="space-y-1">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="font-medium text-slate-700 dark:text-slate-300">{tech.nombre}</span>
+                    <span className="text-slate-500 dark:text-slate-400">{tech.nivel}</span>
+                  </div>
+                  <Progress 
+                    value={nivelAValor(tech.nivel)} 
+                    className="h-1.5 bg-slate-100 dark:bg-slate-800"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Safe area para dispositivos con notch/home indicator */}
+      <div className="h-safe-area-inset-bottom sm:hidden" />
+    </motion.div>
+  </div>
+));
+
+AreaModal.displayName = 'AreaModal';
+
 export const AreasDeExperiencia = () => {
-  const [active, setActive] = useState<AreaExperiencia | boolean | null>(null);
+  const [active, setActive] = useState<AreaExperiencia | null>(null);
   const id = useId();
   const ref = useRef<HTMLDivElement>(null);
+
+  const handleClose = useCallback(() => setActive(null), []);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setActive(false);
+        setActive(null);
       }
     }
 
-    if (active && typeof active === "object") {
+    if (active) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -132,153 +311,62 @@ export const AreasDeExperiencia = () => {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [active]);
 
-  useOutsideClick(ref, () => setActive(null));
+  useOutsideClick(ref, handleClose);
 
   return (
-    <div className="w-full">
-      {/* Header */}
-      <div className="flex items-center justify-center w-full py-2">
-        <h1 className="text-3xl font-bold text-center">
-          Áreas de Experiencia
-        </h1>
-      </div>
+    <LayoutGroup>
+      <div className="w-full">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2.5 rounded-xl bg-linear-to-br from-violet-500 to-purple-600">
+            <LuLayers className="size-5 text-white" />
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Áreas de Experiencia</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Especialidades y conocimientos</p>
+          </div>
+        </div>
 
-      {/* Portal para Overlay y Modal */}
-      {typeof window !== 'undefined' && createPortal(
+        {/* Overlay */}
         <AnimatePresence>
-          {active && typeof active === "object" && (
-            <>
-              {/* Overlay */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/20 h-full w-full z-10"
-              />
-
-              {/* Modal */}
-              <div className="fixed inset-0 grid place-items-center z-[100] px-6 sm:px-0">
-                <motion.div
-                  layoutId={`card-${active.titulo}-${id}`}
-                  ref={ref}
-                  className="w-full max-w-[600px] max-h-[70%] md:h-fit md:max-h-[90%] mx-4 sm:mx-0 flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl shadow-2xl"
-                >
-                  {/* Imagen/Icono placeholder */}
-                  <motion.div
-                    layoutId={`image-${active.titulo}-${id}`}
-                    className={`w-full h-28 sm:h-36 rounded-t-2xl sm:rounded-t-3xl flex items-center justify-center bg-linear-to-br from-blue-700 to-black transition-colors duration-300`}
-                  >
-                    {React.cloneElement(active.icono, {
-                      className: "size-16 sm:size-24 opacity-80"
-                    })}
-                  </motion.div>
-
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start py-3 sm:py-4 px-4 sm:px-6">
-                      <div className="flex-1 pr-2">
-                        <motion.h3
-                          layoutId={`title-${active.titulo}-${id}`}
-                          className="font-medium text-neutral-700 dark:text-neutral-200 text-lg sm:text-xl"
-                        >
-                          {active.titulo}
-                        </motion.h3>
-                        <motion.p
-                          layoutId={`description-${active.descripcion}-${id}`}
-                          className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base"
-                        >
-                          {active.experiencia} de experiencia
-                        </motion.p>
-                      </div>
-
-                      <motion.button
-                        layout
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={() => setActive(null)}
-                        className="hidden sm:flex px-4 py-2 text-sm rounded-full font-bold bg-green-500 hover:bg-green-600 text-white transition-colors"
-                      >
-                        Cerrar
-                      </motion.button>
-                    </div>
-
-                    <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                      <motion.div
-                        layout
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="text-neutral-600 text-sm sm:text-base flex flex-col items-start gap-4 dark:text-neutral-400"
-                      >
-                        <div className="w-full">
-                          <p className="mb-4 sm:mb-6">{active.descripcion}</p>
-
-                          <div className="flex flex-col mx-auto w-full items-center justify-center">
-                            <h4 className="font-semibold mb-3 sm:mb-4 text-neutral-700 dark:text-neutral-200 text-base sm:text-lg">Tecnologías</h4>
-                            <div className="space-y-3 sm:space-y-4 w-full">
-                              {active.tecnologias.map((tech, index) => (
-                                <div key={index} className="space-y-1.5 w-full">
-                                  <div className="flex justify-between items-center text-xs sm:text-sm">
-                                    <span className="font-medium text-neutral-700 dark:text-neutral-300">{tech.nombre}</span>
-                                    <span className="text-xs sm:text-sm font-medium text-neutral-500">{tech.nivel}</span>
-                                  </div>
-                                  <Progress 
-                                    value={nivelAValor(tech.nivel)} 
-                                    className="h-2 bg-neutral-200 dark:bg-neutral-800"
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </>
-          )}
-        </AnimatePresence>,
-        document.body
-      )}
-
-      {/* Grid de tarjetas */}
-      <div className="mx-auto w-full grid grid-cols-1 md:grid-cols-5 items-center">
-        {areasExperiencia.map((area) => (
-          <motion.div
-            layoutId={`card-${area.titulo}-${id}`}
-            key={area.id}
-            onClick={() => setActive(area)}
-            className="p-4 flex flex-col rounded-xl cursor-pointer"
-          >
+          {active && (
             <motion.div
-              whileHover={{ scale: 1.08 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              layoutId={`image-${area.titulo}-${id}`}
-              className={`h-24 w-full gap-4 rounded-lg flex items-center justify-center bg-linear-to-br from-blue-500 via-blue-600 to-blue-300 dark:bg-gradient-to-br dark:from-blue-600/55 dark:to-black/55 transition-colors duration-300`}
-            >
-              {React.cloneElement(area.icono, {
-                className: "size-14 text-white opacity-90"
-              })}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/40 h-full w-full z-10"
+              style={{ willChange: "opacity" }}
+            />
+          )}
+        </AnimatePresence>
 
-              <div className="flex justify-center items-center flex-col">
-                <motion.h3
-                  layoutId={`title-${area.titulo}-${id}`}
-                  className="font-medium text-neutral-100 text-center md:text-left text-base"
-                >
-                  {area.titulo}
-                </motion.h3>
-                <motion.p
-                  layoutId={`description-${area.descripcion}-${id}`}
-                  className="text-neutral-300 text-center md:text-left text-base"
-                >
-                  {area.experiencia}
-                </motion.p>
-              </div>
-            </motion.div>
-          </motion.div>
-        ))}
+        {/* Modal */}
+        <AnimatePresence mode="wait">
+          {active && (
+            <AreaModal 
+              active={active} 
+              id={id} 
+              onClose={handleClose}
+              modalRef={ref}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Grid de tarjetas compacto */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
+          {areasExperiencia.map((area) => (
+            <AreaCard
+              key={area.id}
+              area={area}
+              id={id}
+              onClick={() => setActive(area)}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </LayoutGroup>
   )
 }
+
+export default AreasDeExperiencia;
