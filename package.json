@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "next lint",
     "payload": "cross-env PAYLOAD_CONFIG_PATH=./payload.config.ts payload"
@@ -85,7 +85,6 @@
     "@types/react-dom": "^19.2.2",
     "@types/three": "^0.180.0",
     "autoprefixer": "10.4.21",
-    "baseline-browser-mapping": "^2.8.32",
     "eslint": "^9.38.0",
     "eslint-config-next": "16.0.1",
     "postcss": "8.5.6",
