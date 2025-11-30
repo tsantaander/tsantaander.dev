@@ -2,9 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import mermaid from 'mermaid';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark, oneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { useTheme } from 'next-themes';
+import { File } from 'lucide-react';
+import {
+  Code,
+  CodeBlock as CodeBlockAnimated,
+  CodeHeader,
+} from '@/components/animate-ui/components/animate/code';
 
 // Configuración inicial de Mermaid
 if (typeof window !== 'undefined') {
@@ -21,6 +25,48 @@ type CodeBlockProps = {
   className?: string;
 };
 
+// Mapeo de abreviaturas a nombres completos de lenguajes
+const getLanguageName = (language: string): string => {
+  const langMap: Record<string, string> = {
+    js: 'JavaScript',
+    javascript: 'JavaScript',
+    ts: 'TypeScript',
+    typescript: 'TypeScript',
+    tsx: 'TypeScript (React)',
+    jsx: 'JavaScript (React)',
+    py: 'Python',
+    python: 'Python',
+    java: 'Java',
+    cpp: 'C++',
+    c: 'C',
+    csharp: 'C#',
+    cs: 'C#',
+    go: 'Go',
+    rust: 'Rust',
+    ruby: 'Ruby',
+    php: 'PHP',
+    html: 'HTML',
+    css: 'CSS',
+    scss: 'SCSS',
+    sass: 'Sass',
+    json: 'JSON',
+    yaml: 'YAML',
+    yml: 'YAML',
+    xml: 'XML',
+    sql: 'SQL',
+    bash: 'Bash',
+    sh: 'Shell',
+    shell: 'Shell',
+    markdown: 'Markdown',
+    md: 'Markdown',
+    dockerfile: 'Dockerfile',
+    docker: 'Docker',
+    text: 'Text',
+  };
+
+  return langMap[language?.toLowerCase()] || language?.toUpperCase() || 'Code';
+};
+
 const CodeBlock: React.FC<CodeBlockProps> = ({ language = 'text', code = '', className = '' }) => {
   const [mermaidSvg, setMermaidSvg] = useState('');
   const [isMermaid, setIsMermaid] = useState(false);
@@ -35,26 +81,22 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language = 'text', code = '', cla
     if (isMermaidDiagram && typeof window !== 'undefined') {
       const renderMermaid = async () => {
         try {
-          // Configuración de Mermaid
           mermaid.initialize({
-            startOnLoad: false, // Desactivar carga automática
+            startOnLoad: false,
             theme: isDark ? 'dark' : 'default',
             securityLevel: 'loose',
           });
 
-          // Crear un contenedor temporal para el renderizado
           const container = document.createElement('div');
           container.style.visibility = 'hidden';
           container.style.position = 'absolute';
           document.body.appendChild(container);
           
           try {
-            // Renderizar el diagrama
             const { svg } = await mermaid.render('mermaid-svg-' + Date.now(), code, container);
             setMermaidSvg(svg);
             setError(null);
           } finally {
-            // Limpiar el contenedor temporal
             if (document.body.contains(container)) {
               document.body.removeChild(container);
             }
@@ -65,7 +107,6 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language = 'text', code = '', cla
         }
       };
 
-      // Retrasar ligeramente la renderización para asegurar que el componente esté montado
       const timer = setTimeout(() => {
         renderMermaid();
       }, 100);
@@ -81,12 +122,11 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language = 'text', code = '', cla
         <div 
           className={`mermaid-container my-6 ${className}`}
           dangerouslySetInnerHTML={{ __html: mermaidSvg }}
-          style={{ minHeight: '100px' }} // Altura mínima para evitar saltos de diseño
+          style={{ minHeight: '100px' }}
         />
       );
     }
     
-    // Mostrar código Mermaid sin renderizar si hay un error
     if (error) {
       return (
         <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 my-4">
@@ -98,7 +138,6 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language = 'text', code = '', cla
       );
     }
 
-    // Mostrar placeholder mientras se carga Mermaid
     return (
       <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg my-4" style={{ minHeight: '100px' }}>
         <div className="animate-pulse">
@@ -109,48 +148,23 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language = 'text', code = '', cla
     );
   }
 
-  // Para otros lenguajes de programación
-  if (language === 'mermaid' || language === 'mm') {
-    return (
-      <div className="my-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-        <div className="mermaid">
-          {code}
-        </div>
-      </div>
-    );
-  }
-
-  // Para código normal
+  // Para código normal usando el componente animado
   return (
-    <div className={`my-6 rounded-lg overflow-hidden ${className}`}>
-      {language && language !== 'text' && (
-        <div className="bg-gray-800 text-gray-200 px-4 py-2 text-sm font-mono">
-          {language}
-        </div>
-      )}
-      <div className={`${isDark ? 'bg-gray-900' : 'bg-gray-50'} p-4 overflow-x-auto`}>
-        <SyntaxHighlighter
-          language={language}
-          style={isDark ? oneDark : oneLight}
-          customStyle={{
-            margin: 0,
-            padding: 0,
-            background: 'transparent',
-            fontSize: '0.875rem',
-            lineHeight: '1.5',
-          }}
-          codeTagProps={{
-            style: {
-              fontFamily: 'monospace',
-              fontSize: '0.875rem',
-              lineHeight: '1.5',
-            }
-          }}
-        >
-          {code}
-        </SyntaxHighlighter>
-      </div>
-    </div>
+    <Code className={`my-6 max-h-[500px] ${className}`} code={code}>
+      <CodeHeader icon={File} copyButton>
+        {getLanguageName(language)}
+      </CodeHeader>
+      <CodeBlockAnimated
+        lang={language || 'text'}
+        writing={true}
+        duration={3000}
+        delay={200}
+        cursor={true}
+        inView={true}
+        inViewOnce={false}
+        inViewMargin="-100px"
+      />
+    </Code>
   );
 };
 

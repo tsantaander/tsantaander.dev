@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { motion } from "motion/react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Home, User, Briefcase, FileText, BookOpen } from 'lucide-react'
@@ -13,7 +13,7 @@ import dynamic from "next/dynamic"
 const AnimatedThemeToggler = dynamic(() => import('@/components/ui/animated-theme-toggler'), { ssr: false })
 
 const navItems = [
-  { name: 'Home', url: '/', icon: Home, style: "animate-pulse-fade-in animate-delay-500 animate-duration-100", isRoute: true },
+  { name: 'Home', url: 'home', icon: Home, style: "animate-pulse-fade-in animate-delay-500 animate-duration-100" },
   { name: 'Acerca de mi', url: 'aboutme', icon: User, style: "animate-pulse-fade-in animate-delay-700 animate-duration-100" },
   { name: 'Proyectos', url: 'projects', icon: Briefcase, style: "animate-pulse-fade-in animate-delay-800 animate-duration-100" },
   { name: 'Blog', url: '/blog', icon: BookOpen, style: "animate-pulse-fade-in animate-delay-900 animate-duration-100", isExternal: true },
@@ -34,33 +34,74 @@ export default function NavBar({ items = navItems }: NavBarProps) {
   const [activeTab, setActiveTab] = useState(items[0].name)
   const isClicking = useRef(false)
   const pathname = usePathname()
+  const router = useRouter()
 
   useEffect(() => {
     // Si estamos en una página externa (como /blog), determinamos el tab activo por la URL
-    const currentItem = items.find(item =>
-      item.isExternal ? pathname === item.url : pathname === '/' && item.url === '/'
-    )
-    if (currentItem) {
-      setActiveTab(currentItem.name)
+    const externalItem = items.find(item => item.isExternal && pathname === item.url)
+    
+    if (externalItem) {
+      setActiveTab(externalItem.name)
     } else if (pathname === '/') {
-      // Para la página de inicio, usamos Intersection Observer
+      // Verificar si hay un scroll pendiente en sessionStorage
+      const pendingScrollTarget = sessionStorage.getItem('pendingScrollTarget')
+      
+      if (pendingScrollTarget) {
+        sessionStorage.removeItem('pendingScrollTarget')
+        
+        // Actualizar el tab activo con la sección destino
+        const targetItem = items.find(item => item.url === pendingScrollTarget)
+        if (targetItem) {
+          setActiveTab(targetItem.name)
+        }
+        
+        // Esperar a que el DOM esté listo y hacer scroll
+        setTimeout(() => {
+          isClicking.current = true
+          scrollToTarget(pendingScrollTarget)
+          setTimeout(() => {
+            isClicking.current = false
+          }, 1500)
+        }, 150)
+        
+        return // No iniciar el observer inmediatamente
+      }
+      
+      // Para la página de inicio, usamos Intersection Observer con mejor detección
+      const sectionVisibility = new Map<string, number>();
+
       const observer = new IntersectionObserver(
         (entries) => {
           if (isClicking.current) {
             return;
           }
+
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const navItem = items.find((item) => item.url === entry.target.id);
-              if (navItem) {
-                setActiveTab(navItem.name);
-              }
+            // Guardamos el ratio de visibilidad de cada sección
+            sectionVisibility.set(entry.target.id, entry.intersectionRatio);
+          });
+
+          // Encontramos la sección con mayor visibilidad
+          let maxVisibility = 0;
+          let mostVisibleSection = '';
+
+          sectionVisibility.forEach((ratio, sectionId) => {
+            if (ratio > maxVisibility) {
+              maxVisibility = ratio;
+              mostVisibleSection = sectionId;
             }
           });
+
+          if (mostVisibleSection && maxVisibility > 0.1) {
+            const navItem = items.find((item) => item.url === mostVisibleSection);
+            if (navItem) {
+              setActiveTab(navItem.name);
+            }
+          }
         },
         {
-          threshold: 0.3,
-          rootMargin: '-50px 0px -50px 0px',
+          threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+          rootMargin: '-80px 0px -20% 0px',
         }
       );
 
@@ -77,7 +118,7 @@ export default function NavBar({ items = navItems }: NavBarProps) {
 
   return (
     <div className="fixed top-0 left-1/2 -translate-x-1/2 z-40 pt-4 md:pt-6 px-4 md:px-0 w-full md:w-auto">
-      <div className="flex items-center justify-center gap-1 sm:gap-2 md:gap-3 bg-white/65 dark:bg-white/35 border backdrop-blur-md py-1 px-1.5 sm:px-2 md:px-1 rounded-full shadow-lg animate-fade-in-down animate-duration-600 max-w-full overflow-x-auto scrollbar-hide">
+      <div className="flex items-center justify-center gap-1 sm:gap-2 md:gap-3 bg-white/65 dark:bg-white/35 border backdrop-blur-md py-1 px-1.5 sm:px-2 md:px-1 rounded-full shadow-lg animate-fade-in-down animate-duration-600">
         {items.map((item) => {
           const Icon = item.icon
           const isActive = activeTab === item.name
@@ -85,18 +126,24 @@ export default function NavBar({ items = navItems }: NavBarProps) {
           return (
             <Link
               key={item.name}
-              href={item.isExternal || item.isRoute ? item.url : `#${item.url}`}
+              href={item.isExternal || item.isRoute ? item.url : pathname === '/' ? `#${item.url}` : `/#${item.url}`}
               onClick={(e) => {
                 if (!item.isExternal && !item.isRoute) {
-                  // Solo para secciones de scroll internas
                   e.preventDefault();
-                  isClicking.current = true;
                   setActiveTab(item.name);
-                  scrollToTarget(item.url);
-                  // Después de 1 segundo, permitimos que el observador vuelva a tomar el control.
-                  setTimeout(() => {
-                    isClicking.current = false;
-                  }, 1000);
+                  
+                  // Si estamos en la página principal, hacer scroll directo
+                  if (pathname === '/') {
+                    isClicking.current = true;
+                    scrollToTarget(item.url);
+                    setTimeout(() => {
+                      isClicking.current = false;
+                    }, 1000);
+                  } else {
+                    // Si estamos en otra página, guardar el scroll pendiente en sessionStorage y navegar a home
+                    sessionStorage.setItem('pendingScrollTarget', item.url);
+                    router.push('/');
+                  }
                 } else {
                   // Para rutas y enlaces externos, solo actualizamos el estado activo
                   setActiveTab(item.name);
@@ -117,19 +164,15 @@ export default function NavBar({ items = navItems }: NavBarProps) {
               {isActive && (
                 <motion.div
                   layoutId="lamp"
-                  className="absolute inset-0 w-full bg-primary/5 rounded-full -z-10"
+                  className="absolute inset-0 w-full bg-primary/10 rounded-full -z-10"
                   initial={false}
                   transition={{
                     type: "spring",
-                    stiffness: 300,
-                    damping: 30,
+                    stiffness: 350,
+                    damping: 35,
                   }}
                 >
-                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-6 sm:w-8 md:w-8 h-1 bg-primary rounded-t-full">
-                    <div className="absolute w-8 sm:w-10 md:w-12 h-4 sm:h-5 md:h-6 bg-primary/20 rounded-full blur-md -top-1.5 sm:-top-2 -left-1 sm:-left-2" />
-                    <div className="absolute w-6 sm:w-7 md:w-8 h-4 sm:h-5 md:h-6 bg-primary/20 rounded-full blur-md -top-1" />
-                    <div className="absolute w-3 sm:w-4 md:w-4 h-3 sm:h-4 md:h-4 bg-primary/20 rounded-full blur-sm top-0 left-1.5 sm:left-2" />
-                  </div>
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 sm:w-10 md:w-12 h-1 bg-primary rounded-t-full" />
                 </motion.div>
               )}
             </Link>

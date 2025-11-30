@@ -27,6 +27,7 @@ interface ProjectCardProps {
   project: Project
   index: number
   isVisible: boolean
+  isInViewport: boolean
 }
 
 // Datos de ejemplo para los proyectos
@@ -123,7 +124,7 @@ const typesIcons: Record<Project['type'], LucideIcon> = {
   Backend: Database
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isVisible }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isVisible, isInViewport }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false)
   const { isMobile } = useResponsive()
 
@@ -152,7 +153,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isVisible }) 
     >
       {/* Contenedor principal con efecto glassmorphism */}
       <div className="relative h-full group/glow">
-        {!isMobile && (
+        {!isMobile && isInViewport && (
           <div className="absolute inset-0 rounded-2xl -z-10 transform-gpu transition-transform duration-500 group-hover/glow:scale-[1.02]">
             <GlowingEffect
               blur={0}
@@ -290,6 +291,7 @@ const ProjectsSection: React.FC = () => {
   const [filter, setFilter] = useState<TypesFilter>('Todos')
   const sectionRef = useRef<HTMLDivElement>(null)
   const isVisible = useInView(sectionRef, { once: true, amount: 'some' })
+  const isInViewport = useInView(sectionRef, { margin: "100px" })
 
   const types: TypesFilter[] = ['Todos', 'Personales', 'Tegma Solutions', 'Open Source']
 
@@ -390,6 +392,7 @@ const ProjectsSection: React.FC = () => {
                 project={project}
                 index={index}
                 isVisible={isVisible}
+                isInViewport={isInViewport}
               />
             ))}
           </AnimatePresence>
