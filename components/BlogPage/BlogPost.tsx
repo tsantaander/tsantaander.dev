@@ -83,7 +83,6 @@ export default function BlogPost({ post }: BlogPostProps) {
     }).format(date)
   }
 
-  console.log('Contenido del post:', JSON.stringify(post.content, null, 2));
   return (
     <article className="max-w-4xl mx-auto mt-20">
       {/* Breadcrumb */}

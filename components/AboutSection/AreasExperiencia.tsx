@@ -5,7 +5,6 @@ import { BsWindowSplit } from "react-icons/bs"
 import { LuServerCog, LuWrench, LuBrain, LuLayers } from "react-icons/lu"
 import { useOutsideClick } from "@/hooks/use-outside-click"
 import { Progress } from "@/components/ui/progress"
-import type { IconType } from "react-icons"
 
 const nivelAValor = (nivel: string): number => {
   const niveles: Record<string, number> = {
@@ -27,7 +26,7 @@ interface AreaExperiencia {
   id: string;
   titulo: string;
   descripcion: string;
-  Icono: IconType;
+  icono: React.ReactElement;
   color: string;
   tecnologias: AreaTecnologia[];
   experiencia: string;
@@ -38,7 +37,7 @@ const areasExperiencia: AreaExperiencia[] = [
     id: 'frontend',
     titulo: 'FrontEnd',
     descripcion: 'Creando soluciones mantenibles y elegantes con las últimas tecnologías del ecosistema web moderno.',
-    Icono: BsWindowSplit,
+    icono: <BsWindowSplit />,
     color: 'from-blue-500 to-cyan-500',
     tecnologias: [
       { nombre: 'React', nivel: 'Avanzado' },
@@ -54,7 +53,7 @@ const areasExperiencia: AreaExperiencia[] = [
     id: 'backend',
     titulo: 'BackEnd',
     descripcion: 'Construyendo APIs robustas y sistemas escalables con las mejores prácticas de desarrollo.',
-    Icono: LuServerCog,
+    icono: <LuServerCog />,
     color: 'from-emerald-500 to-teal-500',
     tecnologias: [
       { nombre: 'Node.js', nivel: 'Intermedio' },
@@ -69,7 +68,7 @@ const areasExperiencia: AreaExperiencia[] = [
     id: 'devops',
     titulo: 'DevOps',
     descripcion: 'Automatizando despliegues y mejorando la integración continua para un desarrollo más eficiente.',
-    Icono: LuLayers,
+    icono: <LuLayers />,
     color: 'from-orange-500 to-amber-500',
     tecnologias: [
       { nombre: 'Docker', nivel: 'Intermedio' },
@@ -84,7 +83,7 @@ const areasExperiencia: AreaExperiencia[] = [
     id: 'knowledge',
     titulo: 'Conocimientos',
     descripcion: 'Utilizando herramientas modernas para mejorar la eficiencia y productividad.',
-    Icono: LuBrain,
+    icono: <LuBrain />,
     color: 'from-purple-500 to-pink-500',
     tecnologias: [
       { nombre: 'Linux', nivel: 'Intermedio-Avanzado' },
@@ -100,7 +99,7 @@ const areasExperiencia: AreaExperiencia[] = [
     id: 'tools',
     titulo: 'Herramientas',
     descripcion: 'Utilizando herramientas modernas para mejorar la eficiencia y productividad.',
-    Icono: LuWrench,
+    icono: <LuWrench />,
     color: 'from-rose-500 to-red-500',
     tecnologias: [
       { nombre: 'Linux', nivel: 'Intermedio' },
@@ -117,7 +116,7 @@ const areasExperiencia: AreaExperiencia[] = [
 
 // Configuración de transición optimizada para GPU
 const layoutTransition = {
-  type: "spring" as const,
+  type: "spring",
   stiffness: 350,
   damping: 30,
   mass: 1,
@@ -145,7 +144,9 @@ const AreaCard = memo(({
       transition={layoutTransition}
     >
       <div className={`h-20 sm:h-24 w-full rounded-xl flex flex-col items-center justify-center bg-linear-to-br ${area.color}`}>
-        <area.Icono className="size-6 sm:size-7 text-white mb-1" />
+        {React.cloneElement(area.icono, {
+          className: "size-6 sm:size-7 text-white mb-1"
+        })}
       </div>
     </motion.div>
     <div className="pt-2 px-1">
@@ -179,69 +180,59 @@ const AreaModal = memo(({
   active: AreaExperiencia;
   id: string; 
   onClose: () => void;
-  modalRef: React.RefObject<HTMLDivElement | null>;
+  modalRef: React.RefObject<HTMLDivElement>;
 }) => (
-  <div className="fixed inset-0 z-100 flex items-end sm:items-center sm:justify-center">
+  <div className="fixed inset-0 grid place-items-center z-100 px-4 sm:px-0">
+    <motion.button
+      key={`button-${active.id}-${id}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.05 } }}
+      className="flex absolute top-4 right-4 lg:hidden items-center justify-center bg-white dark:bg-slate-800 rounded-full h-8 w-8 z-110"
+      onClick={onClose}
+    >
+      <CloseIcon />
+    </motion.button>
     <motion.div
       layoutId={`card-${active.id}-${id}`}
       ref={modalRef}
-      className="w-full sm:max-w-[500px] max-h-[85vh] sm:max-h-[90%] flex flex-col bg-white dark:bg-slate-900 rounded-t-3xl sm:rounded-3xl overflow-hidden will-change-transform shadow-2xl"
+      className="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-white dark:bg-slate-900 sm:rounded-3xl overflow-hidden will-change-transform"
       style={{ transform: "translateZ(0)" }}
       transition={layoutTransition}
     >
-      {/* Header con icono y gradiente */}
       <motion.div 
         layoutId={`image-${active.id}-${id}`}
         transition={layoutTransition}
-        className="relative shrink-0"
       >
-        {/* Indicador de arrastre para móvil */}
-        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 bg-white/40 rounded-full sm:hidden" />
-        
-        <div className={`w-full h-24 sm:h-40 flex items-center justify-center bg-linear-to-br ${active.color}`}>
-          <active.Icono className="size-10 sm:size-16 text-white" />
+        <div className={`w-full h-32 sm:h-40 flex items-center justify-center bg-linear-to-br ${active.color}`}>
+          {React.cloneElement(active.icono, {
+            className: "size-14 sm:size-16 text-white"
+          })}
         </div>
-        
-        {/* Botón cerrar flotante en móvil */}
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.15, delay: 0.1 }}
-          onClick={onClose}
-          className="absolute top-3 right-3 p-2 rounded-full bg-black/20 backdrop-blur-sm sm:hidden"
-        >
-          <svg className="size-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </motion.button>
       </motion.div>
 
-      {/* Contenido scrolleable */}
-      <div className="flex-1 overflow-y-auto overscroll-contain">
-        {/* Título y experiencia */}
-        <div className="flex justify-between items-start p-4 sm:p-5 sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800">
-          <div className="flex-1">
+      <div>
+        <div className="flex justify-between items-start p-4">
+          <div>
             <motion.h3
               layoutId={`title-${active.id}-${id}`}
-              className="font-bold text-gray-900 dark:text-white text-lg sm:text-xl"
+              className="font-bold text-gray-900 dark:text-white text-xl"
               transition={layoutTransition}
             >
               {active.titulo}
             </motion.h3>
             <motion.p
               layoutId={`exp-${active.id}-${id}`}
-              className="text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-medium"
+              className="text-blue-600 dark:text-blue-400 text-sm font-medium"
               transition={layoutTransition}
             >
               {active.experiencia} de experiencia
             </motion.p>
           </div>
 
-          {/* Botón cerrar en desktop */}
           <button
             onClick={onClose}
-            className="hidden sm:flex p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+            className="hidden lg:flex p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
           >
             <svg className="size-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -249,38 +240,36 @@ const AreaModal = memo(({
           </button>
         </div>
 
-        {/* Descripción y tecnologías */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.15, delay: 0.1 }}
-          className="p-4 sm:p-5 space-y-4"
-        >
-          <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{active.descripcion}</p>
+        <div className="pt-2 relative px-4 pb-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15, delay: 0.1 }}
+            className="text-slate-600 dark:text-slate-400 text-sm flex flex-col items-start gap-4 max-h-60 md:max-h-96 overflow-auto [scrollbar-width:none] [-ms-overflow-style:none]"
+          >
+            <p className="leading-relaxed">{active.descripcion}</p>
 
-          <div className="w-full">
-            <h4 className="font-semibold text-gray-900 dark:text-white text-sm mb-3">Tecnologías y Nivel</h4>
-            <div className="space-y-2.5">
-              {active.tecnologias.map((tech) => (
-                <div key={tech.nombre} className="space-y-1">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-medium text-slate-700 dark:text-slate-300">{tech.nombre}</span>
-                    <span className="text-slate-500 dark:text-slate-400">{tech.nivel}</span>
+            <div className="w-full">
+              <h4 className="font-semibold text-gray-900 dark:text-white text-sm mb-4">Tecnologías y Nivel</h4>
+              <div className="space-y-3">
+                {active.tecnologias.map((tech, index) => (
+                  <div key={tech.nombre} className="space-y-1.5">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="font-medium text-slate-700 dark:text-slate-300">{tech.nombre}</span>
+                      <span className="text-slate-500 dark:text-slate-400">{tech.nivel}</span>
+                    </div>
+                    <Progress 
+                      value={nivelAValor(tech.nivel)} 
+                      className="h-1.5 bg-slate-100 dark:bg-slate-800"
+                    />
                   </div>
-                  <Progress 
-                    value={nivelAValor(tech.nivel)} 
-                    className="h-1.5 bg-slate-100 dark:bg-slate-800"
-                  />
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
-
-      {/* Safe area para dispositivos con notch/home indicator */}
-      <div className="h-safe-area-inset-bottom sm:hidden" />
     </motion.div>
   </div>
 ));
@@ -369,4 +358,23 @@ export const AreasDeExperiencia = () => {
   )
 }
 
-export default AreasDeExperiencia;
+const CloseIcon = memo(() => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="h-4 w-4 text-black dark:text-white"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </svg>
+));
+
+CloseIcon.displayName = 'CloseIcon';
