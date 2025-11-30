@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import type { Post } from '@/types/payload-types'
 import RichTextRenderer from '@/components/RichText/index'
 

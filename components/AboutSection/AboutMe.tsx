@@ -7,17 +7,14 @@ import { StackEspecializado } from "./StackEspecializado"
 
 export default function AboutMe() {
   return (
-    <section id="aboutme" className="relative w-full min-h-screen py-16 md:py-24">
+    <section id="aboutme" className="relative w-full min-h-screen py-16 md:py-24 bg-white dark:bg-black">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 dark:bg-blue-400/10 border border-blue-500/20 dark:border-blue-400/20 mb-4">
-            <Sparkles className="size-4 text-blue-600 dark:text-blue-400" />
-            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">Sobre Mí</span>
+            <Sparkles className="size-5 text-blue-600 dark:text-blue-400" />
+            <span className="text-md font-medium text-blue-600 dark:text-blue-400">Sobre Mí</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Conoce al desarrollador
-          </h2>
         </div>
 
         {/* Bento Grid Layout */}

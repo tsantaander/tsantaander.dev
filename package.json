@@ -55,7 +55,6 @@
     "gsap": "^3.13.0",
     "lucide-react": "^0.548.0",
     "mermaid": "^11.12.1",
-    "million": "^3.1.11",
     "mongodb": "^7.0.0",
     "motion": "^12.23.24",
     "nanoid": "^5.1.6",

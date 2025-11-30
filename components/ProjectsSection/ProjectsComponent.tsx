@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useRef } from 'react'
-import { motion, AnimatePresence, useInView } from 'framer-motion'
+import { motion, AnimatePresence, useInView } from 'motion/react'
 import { ExternalLink, Github, Code2, Palette, Database, Zap, LucideIcon } from 'lucide-react'
 import { GlowingEffect } from '@/components/ui/glowing-effect'
 import { Badge } from '@/components/ui/badge'
@@ -383,7 +383,7 @@ const ProjectsSection: React.FC = () => {
           animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.7, duration: 0.8 }}
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="popLayout">
             {filteredProjects.map((project: Project, index: number) => (
               <ProjectCard
                 key={project.id}

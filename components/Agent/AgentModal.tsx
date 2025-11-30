@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { Bot, X } from 'lucide-react';
 import AgentChat from './AgentChat';
 
@@ -24,14 +24,21 @@ export default function AgentModal() {
             {/* Modal */}
             <AnimatePresence>
                 {isOpen && (
-                    <>
-                        {/* Overlay */}
+                    <motion.div
+                        key="agent-modal-container"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-60"
+                    >
+                        {/* Overlay con blur animado */}
                         <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
                             onClick={() => setIsOpen(false)}
-                            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60"
+                            initial={{ backdropFilter: "blur(0px)" }}
+                            animate={{ backdropFilter: "blur(4px)" }}
+                            exit={{ backdropFilter: "blur(0px)" }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
+                            className="absolute inset-0 bg-black/50"
                         />
 
                         {/* Contenido de la modal */}
@@ -67,7 +74,7 @@ export default function AgentModal() {
                                 <AgentChat />
                             </div>
                         </motion.div>
-                    </>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </>

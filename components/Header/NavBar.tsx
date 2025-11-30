@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { LucideIcon } from "lucide-react"
@@ -76,7 +76,7 @@ export default function NavBar({ items = navItems }: NavBarProps) {
   }, [pathname, items])
 
   return (
-    <div className="fixed top-0 left-1/2 -translate-x-1/2 z-50 pt-4 md:pt-6 px-4 md:px-0 w-full md:w-auto">
+    <div className="fixed top-0 left-1/2 -translate-x-1/2 z-40 pt-4 md:pt-6 px-4 md:px-0 w-full md:w-auto">
       <div className="flex items-center justify-center gap-1 sm:gap-2 md:gap-3 bg-white/65 dark:bg-white/35 border backdrop-blur-md py-1 px-1.5 sm:px-2 md:px-1 rounded-full shadow-lg animate-fade-in-down animate-duration-600 max-w-full overflow-x-auto scrollbar-hide">
         {items.map((item) => {
           const Icon = item.icon
@@ -135,7 +135,7 @@ export default function NavBar({ items = navItems }: NavBarProps) {
             </Link>
           )
         })}
-        <div className="flex items-center justify-center pl-2 sm:pl-4 md:pl-6 pr-1 sm:pr-1.5 md:pr-2 min-w-[48px] sm:min-w-[56px] md:min-w-[64px]">
+        <div className="flex items-center justify-center pl-2 sm:pl-4 md:pl-6 pr-1 sm:pr-1.5 md:pr-2 min-w-12 sm:min-w-14 md:min-w-16">
           <AnimatedThemeToggler />
         </div>
       </div>
