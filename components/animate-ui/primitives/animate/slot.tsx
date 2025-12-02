@@ -74,17 +74,17 @@ function Slot<T extends HTMLElement = HTMLElement>({
         ? (children.type as React.ElementType)
         : motion.create(children.type as React.ElementType),
     [isAlreadyMotion, children.type],
-  );
+  ) as React.ComponentType<AnyProps & { ref?: React.Ref<T> }>;
 
   if (!React.isValidElement(children)) return null;
 
   const { ref: childRef, ...childProps } = children.props as AnyProps;
 
   const mergedProps = mergeProps(childProps, props);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mergedRef = mergeRefs(childRef as React.Ref<any>, ref as React.Ref<any>);
 
-  return (
-    <Base {...mergedProps} ref={mergeRefs(childRef as React.Ref<T>, ref)} />
-  );
+  return <Base {...mergedProps} ref={mergedRef} />;
 }
 
 export {
