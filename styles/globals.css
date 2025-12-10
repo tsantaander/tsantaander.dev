@@ -158,6 +158,20 @@
   }
 }
 
+/* Shimmer animation for skeleton loaders */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
 /* Traditional Scroll Styles - Optimized for Performance */
 html {
   scroll-behavior: smooth;

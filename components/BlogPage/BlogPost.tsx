@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import ImageWithSkeleton from './ImageWithSkeleton'
 import Link from 'next/link'
 import { motion } from 'motion/react'
 import type { Post } from '@/types/payload-types'
@@ -127,7 +127,7 @@ export default function BlogPost({ post }: BlogPostProps) {
           <div className="flex items-center gap-3">
             {typeof post.author === 'object' && post.author.avatar && (
               <div className="relative w-12 h-12 rounded-full overflow-hidden">
-                <Image
+                <ImageWithSkeleton
                   src={
                     typeof post.author.avatar === 'object'
                       ? (post.author.avatar.sizes?.thumbnail?.url || post.author.avatar.url)
@@ -137,7 +137,7 @@ export default function BlogPost({ post }: BlogPostProps) {
                   fill
                   sizes="48px"
                   className="object-cover"
-                  loading="lazy"
+                  skeletonClassName="rounded-full"
                 />
               </div>
             )}
@@ -236,7 +236,7 @@ export default function BlogPost({ post }: BlogPostProps) {
             <div className="flex gap-4">
               {post.author.avatar && (
                 <div className="relative w-16 h-16 rounded-full overflow-hidden shrink-0">
-                  <Image
+                  <ImageWithSkeleton
                     src={
                       typeof post.author.avatar === 'object'
                         ? (post.author.avatar.sizes?.thumbnail?.url || post.author.avatar.url)
@@ -246,7 +246,7 @@ export default function BlogPost({ post }: BlogPostProps) {
                     fill
                     sizes="64px"
                     className="object-cover"
-                    loading="lazy"
+                    skeletonClassName="rounded-full"
                   />
                 </div>
               )}
