@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import ImageWithSkeleton from './ImageWithSkeleton'
 import Link from 'next/link'
 import { motion } from 'motion/react'
@@ -177,9 +176,9 @@ export default function BlogPost({ post }: BlogPostProps) {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="relative w-full h-[300px] md:h-[500px] rounded-2xl overflow-hidden mb-12"
+        className="group/image relative w-full h-[300px] md:h-[500px] rounded-2xl overflow-hidden mb-12"
       >
-        <Image
+        <ImageWithSkeleton
           src={
             typeof post.featuredImage === 'object'
               ? (post.featuredImage.sizes?.desktop?.url || post.featuredImage.url)
@@ -192,10 +191,8 @@ export default function BlogPost({ post }: BlogPostProps) {
           }
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-          className="object-cover"
+          className="object-cover group-hover/image:scale-105"
           priority
-          placeholder="blur"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAMH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEQA/AMW0xeLjYZUhFtkuR1SGShxTRxuG4Hg+9VNfaivd8slut1xnGRFioBbQltA2g+T2fVKVZKrsMDyJ/9k="
         />
       </motion.div>
 

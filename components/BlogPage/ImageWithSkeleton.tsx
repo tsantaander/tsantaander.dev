@@ -50,9 +50,13 @@ export default function ImageWithSkeleton({
         alt={alt}
         className={cn(
           className,
-          'transition-opacity duration-500',
           isLoading ? 'opacity-0' : 'opacity-100'
         )}
+        style={{
+          transitionProperty: 'opacity, transform',
+          transitionDuration: '500ms, 300ms',
+          transitionTimingFunction: 'ease-out, ease-out'
+        }}
         onLoad={() => setIsLoading(false)}
       />
     </>

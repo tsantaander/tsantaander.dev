@@ -256,19 +256,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isVisible, is
           {/* Tecnologías */}
           <motion.div
             className="flex flex-wrap gap-2"
-            initial={{ opacity: 0, y: 10 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ delay: (index * 0.1) + 0.4 }}
+            initial={{ opacity: 0 }}
+            animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ delay: (index * 0.1) + 0.4, duration: 0.4 }}
           >
             {project.technologies.map((tech: string, techIndex: number) => (
               <motion.div
                 key={tech}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+                initial={{ opacity: 0 }}
+                animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
                 transition={{
-                  delay: (index * 0.1) + 0.5 + (techIndex * 0.05),
-                  type: "spring",
-                  stiffness: 300
+                  delay: (index * 0.1) + 0.5 + (techIndex * 0.03),
+                  duration: 0.3,
+                  ease: "easeOut"
                 }}
               >
                 <Badge
@@ -388,7 +388,7 @@ const ProjectsSection: React.FC = () => {
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project: Project, index: number) => (
               <ProjectCard
-                key={project.id}
+                key={`${filter}-${project.id}`}
                 project={project}
                 index={index}
                 isVisible={isVisible}
