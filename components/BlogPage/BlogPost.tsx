@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import ImageWithSkeleton from './ImageWithSkeleton'
 import Link from 'next/link'
 import { motion } from 'motion/react'
