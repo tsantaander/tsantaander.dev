@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { SiMongodb } from "react-icons/si";
 import {
   Nextjs,
   ReactDark,
@@ -14,7 +15,6 @@ import {
   Git,
   GraphQL,
   Python,
-  MongoDB,
   Docker
 } from "@ridemountainpig/svgl-react";
 import LogoSisa from "@/public/images/imagotipo_sisa.png";
@@ -32,7 +32,7 @@ const technologyComponents: Record<string, React.ReactNode> = {
   git: <Git />,
   graphql: <GraphQL />,
   python: <Python />,
-  mongodb: <MongoDB />,
+  mongodb: <SiMongodb size={48} />, // react-icons fallback because svgl-react lacks MongoDB
   docker: <Docker />,
 };
 
