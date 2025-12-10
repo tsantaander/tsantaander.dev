@@ -11,13 +11,17 @@ function useIsInView<T extends HTMLElement = HTMLElement>(
   ref: React.Ref<T>,
   options: UseIsInViewOptions = {},
 ) {
-  const { inView, inViewOnce = false, inViewMargin = '0px' } = options;
+  const { inView, inViewOnce = false, inViewMargin = '-50px' } = options;
   const localRef = React.useRef<T>(null);
   React.useImperativeHandle(ref, () => localRef.current as T);
+  
+  // Optimized InView detection with better margin for smooth animations
   const inViewResult = useInView(localRef, {
     once: inViewOnce,
     margin: inViewMargin,
+    amount: 'some', // Trigger when any part is visible
   });
+  
   const isInView = !inView || inViewResult;
   return { ref: localRef, isInView };
 }

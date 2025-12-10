@@ -130,12 +130,14 @@ export default function BlogPost({ post }: BlogPostProps) {
                 <Image
                   src={
                     typeof post.author.avatar === 'object'
-                      ? post.author.avatar.url
+                      ? (post.author.avatar.sizes?.thumbnail?.url || post.author.avatar.url)
                       : ''
                   }
                   alt={post.author.name}
                   fill
+                  sizes="48px"
                   className="object-cover"
+                  loading="lazy"
                 />
               </div>
             )}
@@ -179,7 +181,7 @@ export default function BlogPost({ post }: BlogPostProps) {
         <Image
           src={
             typeof post.featuredImage === 'object'
-              ? post.featuredImage.url
+              ? (post.featuredImage.sizes?.desktop?.url || post.featuredImage.url)
               : ''
           }
           alt={
@@ -188,8 +190,11 @@ export default function BlogPost({ post }: BlogPostProps) {
               : post.title
           }
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
           className="object-cover"
           priority
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAMH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEQA/AMW0xeLjYZUhFtkuR1SGShxTRxuG4Hg+9VNfaivd8slut1xnGRFioBbQltA2g+T2fVKVZKrsMDyJ/9k="
         />
       </motion.div>
 
@@ -234,12 +239,14 @@ export default function BlogPost({ post }: BlogPostProps) {
                   <Image
                     src={
                       typeof post.author.avatar === 'object'
-                        ? post.author.avatar.url
+                        ? (post.author.avatar.sizes?.thumbnail?.url || post.author.avatar.url)
                         : ''
                     }
                     alt={post.author.name}
                     fill
+                    sizes="64px"
                     className="object-cover"
+                    loading="lazy"
                   />
                 </div>
               )}

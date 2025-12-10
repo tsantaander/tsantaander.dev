@@ -1,40 +1,33 @@
 "use client"
 
 import { useEffect, useRef } from 'react'
-import Lenis from 'lenis'
 
 interface SmoothScrollProps {
   children: React.ReactNode
 }
 
+/**
+ * Component that enables native smooth scrolling with performance optimizations
+ * Uses browser's native scroll-behavior: smooth for traditional scrolling
+ */
 export default function SmoothScroll({ children }: SmoothScrollProps) {
-  const lenisRef = useRef<Lenis | null>(null)
-
   useEffect(() => {
-    // Inicializar Lenis
-    lenisRef.current = new Lenis({
-      duration: 1.4, // Duración de la animación de scroll (más lento)
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing suave exponencial
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 0.8, // Reducido para scroll más lento
-      touchMultiplier: 1.5,
-      infinite: false,
-    })
-
-    // Función de animación
-    function raf(time: number) {
-      lenisRef.current?.raf(time)
-      requestAnimationFrame(raf)
+    // Enable will-change dynamically during scroll for better performance
+    let scrollTimeout: NodeJS.Timeout
+    const handleScroll = () => {
+      document.documentElement.style.willChange = 'scroll-position'
+      
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(() => {
+        document.documentElement.style.willChange = 'auto'
+      }, 150)
     }
 
-    requestAnimationFrame(raf)
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
-    // Cleanup
     return () => {
-      lenisRef.current?.destroy()
-      lenisRef.current = null
+      window.removeEventListener('scroll', handleScroll)
+      clearTimeout(scrollTimeout)
     }
   }, [])
 

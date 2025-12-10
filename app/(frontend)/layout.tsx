@@ -5,6 +5,7 @@ import { ResponsiveProvider } from "@/context/ResponsiveContext";
 import NavBar from "@/components/Header/NavBar";
 import AIAgentModal from "@/components/Agent/AgentModal";
 import SmoothScroll from "@/components/ui/smooth-scroll";
+import MotionProvider from "@/components/ui/motion-provider";
 import "@/styles/globals.css";
 
 const inter = Inter({
@@ -72,13 +73,15 @@ export default function RootLayout({
             attribute="class"
             defaultTheme="dark"
             >
-              <SmoothScroll>
-                <ResponsiveProvider>
-                  <NavBar />
-                  {children}
-                  <AIAgentModal />
-                </ResponsiveProvider>
-              </SmoothScroll>
+              <MotionProvider>
+                <SmoothScroll>
+                  <ResponsiveProvider>
+                    <NavBar />
+                    {children}
+                    <AIAgentModal />
+                  </ResponsiveProvider>
+                </SmoothScroll>
+              </MotionProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -77,7 +77,7 @@ export default function BlogList({ initialPosts = [] }: BlogListProps) {
               <Image
                 src={
                   typeof post.featuredImage === 'object'
-                    ? post.featuredImage.url
+                    ? (post.featuredImage.sizes?.card?.url || post.featuredImage.url)
                     : ''
                 }
                 alt={
@@ -86,7 +86,11 @@ export default function BlogList({ initialPosts = [] }: BlogListProps) {
                     : post.title
                 }
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover group-hover:scale-110 transition-transform duration-300"
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAMH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEEA/AMW0xeLjYZUhFtkuR1SGShxTRxuG4Hg+9VNfaivd8slut1xnGRFioBbQltA2g+T2fVKVZKrsMDyJ/9k="
               />
               {/* Overlay gradient */}
               <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -127,12 +131,14 @@ export default function BlogList({ initialPosts = [] }: BlogListProps) {
                       <Image
                         src={
                           typeof post.author.avatar === 'object'
-                            ? post.author.avatar.url
+                            ? (post.author.avatar.sizes?.thumbnail?.url || post.author.avatar.url)
                             : ''
                         }
                         alt={post.author.name}
                         fill
+                        sizes="40px"
                         className="object-cover"
+                        loading="lazy"
                       />
                     </div>
                   )}

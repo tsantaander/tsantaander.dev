@@ -361,10 +361,10 @@ export const AreasDeExperiencia = () => {
                 className={`cursor-pointer h-20 w-full rounded-xl flex flex-col items-center justify-center bg-linear-to-br ${area.color} active:scale-95 transition-transform duration-100`}
               >
                 <IconRenderer icon={area.icono} className="size-6 text-white mb-1" />
-                <h3 className="font-medium text-white text-xs text-center px-2">
+                <h3 className="font-medium text-white text-xs text-center px-2 select-none">
                   {area.titulo}
                 </h3>
-                <p className="text-white/80 text-[10px]">
+                <p className="text-white/80 text-[10px] select-none">
                   {area.experiencia}
                 </p>
               </div>

@@ -59,7 +59,13 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ['payload'],
   images: {
     remotePatterns: getRemotePatterns(),
-    unoptimized: true,
+    // Habilitar optimización de imágenes para mejor rendimiento
+    formats: ['image/avif', 'image/webp'],
+    // Tamaños de dispositivos para responsive images
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Minimizar el tiempo de caché de imágenes para desarrollo, aumentar en producción
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 días
   },
   turbopack: {
     rules: {

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "@midudev/tailwind-animations";
+@plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -7,6 +8,27 @@
   body {
     height: 100%;
     font-family: 'Fira Code', 'Inter', monospace;
+    /* Enable native smooth scrolling */
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Performance optimization for scrolling animations */
+  [data-lenis-prevent] {
+    overflow: hidden;
+  }
+
+  /* Optimize transforms for smooth animations */
+  .will-animate {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 }
 
@@ -136,23 +158,24 @@
   }
 }
 
-/* Lenis Smooth Scroll Styles */
-html.lenis, html.lenis body {
-  height: auto;
+/* Traditional Scroll Styles - Optimized for Performance */
+html {
+  scroll-behavior: smooth;
 }
 
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
+body {
+  scroll-behavior: smooth;
 }
 
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
+/* Reduce layout thrashing for scroll animations */
+.motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    animation-duration: 0.3s;
+  }
 
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-smooth iframe {
-  pointer-events: none;
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -4,22 +4,23 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Bot, X } from 'lucide-react';
 import AgentChat from './AgentChat';
+import { useResponsive } from '@/context/ResponsiveContext';
 
 export default function AgentModal() {
     const [isOpen, setIsOpen] = useState(false);
+    const { isMobile } = useResponsive();
 
     return (
         <>
-            {/* Floating Button */}
-            <motion.button
+            {/* Floating Button - CSS transitions para mejor rendimiento en móvil */}
+            <button
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-linear-to-br from-blue-700 to-blue-600 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
+                className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-linear-to-br from-blue-700 to-blue-600 rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-transform duration-150"
+                style={{ transform: 'translateZ(0)' }}
                 aria-label="Abrir asistente virtual"
             >
                 <Bot className="w-6 h-6 text-white" />
-            </motion.button>
+            </button>
 
             {/* Modal */}
             <AnimatePresence>
@@ -29,24 +30,27 @@ export default function AgentModal() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
+                        transition={{ duration: 0.15 }}
                         className="fixed inset-0 z-60"
                     >
-                        {/* Overlay con blur animado */}
-                        <motion.div
+                        {/* Overlay - sin animación de blur para mejor rendimiento móvil */}
+                        <div
                             onClick={() => setIsOpen(false)}
-                            initial={{ backdropFilter: "blur(0px)" }}
-                            animate={{ backdropFilter: "blur(4px)" }}
-                            exit={{ backdropFilter: "blur(0px)" }}
-                            transition={{ duration: 0.3, ease: "easeOut" }}
-                            className="absolute inset-0 bg-black/50"
+                            className={`absolute inset-0 bg-black/50 ${isMobile ? '' : 'backdrop-blur-sm'}`}
                         />
 
                         {/* Contenido de la modal */}
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 50, scale: 0.95 }}
+                            transition={{ 
+                                type: 'spring', 
+                                stiffness: 300, 
+                                damping: 30,
+                                restDelta: 0.01
+                            }}
+                            style={{ transform: 'translateZ(0)', willChange: 'transform, opacity' }}
                             className="fixed bottom-6 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 w-[95vw] sm:w-[450px] h-[600px] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl z-70 flex flex-col overflow-hidden"
                         >
                             {/* Header */}
