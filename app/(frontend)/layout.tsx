@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/ui/theme-provider"
-import { Inter, Fira_Code} from "next/font/google";
+import { Inter, Fira_Code, Noto_Sans, Cascadia_Code } from "next/font/google";
 import { ResponsiveProvider } from "@/context/ResponsiveContext";
 import NavBar from "@/components/Header/NavBar";
 import AIAgentModal from "@/components/Agent/AgentModal";
@@ -8,14 +8,22 @@ import SmoothScroll from "@/components/ui/smooth-scroll";
 import MotionProvider from "@/components/ui/motion-provider";
 import "@/styles/globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const notoSans = Noto_Sans({
+  variable: "--font-noto-sans",
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 const firaCode = Fira_Code({
   variable: "--font-fira-code",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const cascadiaCode = Cascadia_Code({
+  variable: "--font-cascadia-code",
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -67,21 +75,23 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${firaCode.variable} antialiased flex flex-col`}
+        className={`${notoSans.variable} ${firaCode.variable} ${cascadiaCode.variable} antialiased flex flex-col`}
       >
-        <ThemeProvider 
-            attribute="class"
-            defaultTheme="dark"
-            >
-              <MotionProvider>
-                <SmoothScroll>
-                  <ResponsiveProvider>
-                    <NavBar />
-                    {children}
-                    <AIAgentModal />
-                  </ResponsiveProvider>
-                </SmoothScroll>
-              </MotionProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <MotionProvider>
+            <SmoothScroll>
+              <ResponsiveProvider>
+                <NavBar />
+                {children}
+                <AIAgentModal />
+              </ResponsiveProvider>
+            </SmoothScroll>
+          </MotionProvider>
         </ThemeProvider>
       </body>
     </html>

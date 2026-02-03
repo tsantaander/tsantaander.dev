@@ -58,26 +58,26 @@ const projectsData: Project[] = [
   },
   {
     id: 3,
-    title: "AiHire",
-    description: "App Full Stack para practicar entrevistas con IA. Simulaciones personalizadas, retroalimentación en tiempo real sobre habilidades técnicas y comunicativas. Ideal para candidatos y reclutadores.",
-    image: "/images/aihire.jpg",
-    technologies: ["React", "D3.js", "FastAPI", "PostgreSQL", "Redis"],
+    title: "SmartWatt",
+    description: "Aplicación móvil de métricas de energía en un hogar, comunicandose con un circuito manejado con Arduino ",
+    image: "/images/smartwatt.png",
+    technologies: ["Kotlin", "Python", "Arduino", "Sintaxis C/C++", "Firebase"],
     type: "FullStack",
-    category: "Personales",
-    githubUrl: "https://github.com",
+    category: "Open Source",
+    githubUrl: "https://github.com/tsantaander/smartwatt_app",
     liveUrl: "https://example.com",
     featured: false
   },
   {
     id: 4,
     title: "Centro Médico San Fernando Salud",
-    description: "Aplicación web solicitada por nuestro cliente SISA Médica, el cual es un centro de imagenología que buscaba mejorar su plataforma web, posicionamiento SEO y experiencia de usuario. Por lo que se implemento una migración de su sitio en Wordpress a Next.js",
+    description: "Aplicación web solicitada por nuestro cliente San Fernando Salud, el cual es un centro de salud que buscaba mejorar su plataforma web, posicionamiento SEO y experiencia de usuario. Por lo que se implemento una migración de su sitio en Wordpress a Next.js, todo lo anterior, siendo potenciado con Strapi Cloud con la finalidad de integrarlo como CMS Headless, para administrar un catálogo de servicios y especialidades médicas, como también un blog de profesionales.",
     image: "/images/sfs.png",
     technologies: ["Next.js", "React", "TypeScript", "Node.js", "Strapi", "Tailwind CSS"],
     type: "FullStack",
     category: "Tegma Solutions",
     githubUrl: "https://github.com",
-    liveUrl: "https://sanfernandosaludcl.vercel.app",
+    liveUrl: "https://sanfernandosalud.cl",
     featured: true
   },
   {
@@ -92,27 +92,15 @@ const projectsData: Project[] = [
     liveUrl: "https://sisamedica.cl",
     featured: true
   },
-   {
-    id: 6,
-    title: "SmartWatt",
-    description: "Aplicación móvil de métricas de energía en un hogar, comunicandose con un circuito manejado con Arduino ",
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop",
-    technologies: ["Kotlin", "Python", "Arduino", "Sintaxis C/C++", "Firebase"],
-    type: "FullStack",
-    category: "Open Source",
-    githubUrl: "https://github.com",
-    liveUrl: "https://example.com",
-    featured: false
-  },
   {
-    id: 7,
+    id: 6,
     title: "CCTV Monitor",
     description: "Plataforma de seguimiento de criptomonedas con análisis técnico, alertas de precios y portfolio personal.",
     image: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&h=400&fit=crop",
-    technologies: ["React", "Python", "CoinGecko API", "Chart.js", "PostgreSQL"],
+    technologies: ["Python", "TKinter", "Pillow", "PyGame", "PyInput"],
     type: "FullStack",
     category: "Personales",
-    githubUrl: "https://github.com",
+    githubUrl: "https://github.com/tsantaander/cctv_monitor",
     liveUrl: "https://example.com",
     featured: false
   }
@@ -166,121 +154,121 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isVisible, is
             />
           </div>
         )}
-        <div className="relative h-full bg-white/10 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-white/20 dark:border-white/10 overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl">
-        {/* Imagen del proyecto */}
-        <div className="relative h-48 md:h-56 overflow-hidden">
-          <motion.img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-700"
-            animate={{ scale: isHovered ? 1.1 : 1 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          />
+        <div className="relative h-full bg-white dark:bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl">
+          {/* Imagen del proyecto */}
+          <div className="relative h-48 md:h-56 overflow-hidden">
+            <motion.img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover transition-transform duration-700"
+              animate={{ scale: isHovered ? 1.1 : 1 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            />
 
-          {/* Overlay con gradiente */}
-          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
+            {/* Overlay con gradiente */}
+            <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
 
-          {/* Badge de categoría */}
-          <motion.div
-            className="absolute top-4 left-4 flex items-center gap-2 bg-black/30 backdrop-blur-sm px-3 py-2 rounded-lg"
-            initial={{ opacity: 0, x: -20 }}
-            animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-            transition={{ delay: (index * 0.1) + 0.3 }}
-          >
-            <TypeIcon className="w-4 h-4 text-white" />
-            <span className="text-white text-sm font-medium">{project.type}</span>
-          </motion.div>
-
-          {/* Featured badge */}
-          {project.featured && (
+            {/* Badge de categoría */}
             <motion.div
-              className="absolute top-4 right-4 bg-linear-to-r from-blue-500 to-purple-600 px-3 py-1 rounded-full"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-              transition={{ delay: (index * 0.1) + 0.4, type: "spring", stiffness: 300 }}
+              className="absolute top-4 left-4 flex items-center gap-2 bg-black/30 backdrop-blur-sm px-3 py-2 rounded-lg"
+              initial={{ opacity: 0, x: -20 }}
+              animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+              transition={{ delay: (index * 0.1) + 0.3 }}
             >
-              <Zap className="w-4 h-4 text-white" />
+              <TypeIcon className="w-4 h-4 text-white" />
+              <span className="text-white text-sm font-medium">{project.type}</span>
             </motion.div>
-          )}
 
-          {/* Botones de acción */}
-          <motion.div
-            className="absolute bottom-4 right-4 flex gap-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isHovered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <motion.a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white/20 backdrop-blur-sm hover:bg-white/30 p-2 rounded-lg transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Github className="w-5 h-5 text-white" />
-            </motion.a>
-            <motion.a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-blue-500/80 backdrop-blur-sm hover:bg-blue-500 p-2 rounded-lg transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <ExternalLink className="w-5 h-5 text-white" />
-            </motion.a>
-          </motion.div>
-        </div>
-
-        {/* Contenido del proyecto */}
-        <div className="p-6 space-y-4">
-          <motion.h3
-            className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
-            initial={{ opacity: 0 }}
-            animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: (index * 0.1) + 0.2 }}
-          >
-            {project.title}
-          </motion.h3>
-
-          <motion.p
-            className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: (index * 0.1) + 0.3 }}
-          >
-            {project.description}
-          </motion.p>
-
-          {/* Tecnologías */}
-          <motion.div
-            className="flex flex-wrap gap-2"
-            initial={{ opacity: 0 }}
-            animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: (index * 0.1) + 0.4, duration: 0.4 }}
-          >
-            {project.technologies.map((tech: string, techIndex: number) => (
+            {/* Featured badge */}
+            {project.featured && (
               <motion.div
-                key={tech}
-                initial={{ opacity: 0 }}
-                animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
-                transition={{
-                  delay: (index * 0.1) + 0.5 + (techIndex * 0.03),
-                  duration: 0.3,
-                  ease: "easeOut"
-                }}
+                className="absolute top-4 right-4 bg-linear-to-r from-blue-500 to-purple-600 px-3 py-1 rounded-full"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+                transition={{ delay: (index * 0.1) + 0.4, type: "spring", stiffness: 300 }}
               >
-                <Badge
-                  variant="secondary"
-                  className="bg-gray-200/50 dark:bg-gray-700/50 hover:bg-blue-500 hover:text-white transition-colors duration-300 cursor-default"
-                >
-                  {tech}
-                </Badge>
+                <Zap className="w-4 h-4 text-white" />
               </motion.div>
-            ))}
-          </motion.div>
-        </div>
+            )}
+
+            {/* Botones de acción */}
+            <motion.div
+              className="absolute bottom-4 right-4 flex gap-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isHovered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/20 backdrop-blur-sm hover:bg-white/30 p-2 rounded-lg transition-colors"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Github className="w-5 h-5 text-white" />
+              </motion.a>
+              <motion.a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-500/80 backdrop-blur-sm hover:bg-blue-500 p-2 rounded-lg transition-colors"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <ExternalLink className="w-5 h-5 text-white" />
+              </motion.a>
+            </motion.div>
+          </div>
+
+          {/* Contenido del proyecto */}
+          <div className="p-6 space-y-4">
+            <motion.h3
+              className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+              initial={{ opacity: 0 }}
+              animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ delay: (index * 0.1) + 0.2 }}
+            >
+              {project.title}
+            </motion.h3>
+
+            <motion.p
+              className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed"
+              initial={{ opacity: 0 }}
+              animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ delay: (index * 0.1) + 0.3 }}
+            >
+              {project.description}
+            </motion.p>
+
+            {/* Tecnologías */}
+            <motion.div
+              className="flex flex-wrap gap-2"
+              initial={{ opacity: 0 }}
+              animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ delay: (index * 0.1) + 0.4, duration: 0.4 }}
+            >
+              {project.technologies.map((tech: string, techIndex: number) => (
+                <motion.div
+                  key={tech}
+                  initial={{ opacity: 0 }}
+                  animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{
+                    delay: (index * 0.1) + 0.5 + (techIndex * 0.03),
+                    duration: 0.3,
+                    ease: "easeOut"
+                  }}
+                >
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 hover:bg-blue-500 hover:text-white transition-colors duration-300 cursor-default"
+                  >
+                    {tech}
+                  </Badge>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -304,11 +292,10 @@ const ProjectsSection: React.FC = () => {
   }
 
   return (
-    <section id="projects" className="relative min-h-screen py-20">
-
-      {/* Azure Depths */}
+    <section id="projects" className="relative min-h-screen py-10 bg-slate-50 dark:bg-transparent">
+      {/* Azure Depths - Dark Mode Gradient */}
       <div
-        className="absolute inset-0 -z-10"
+        className="absolute inset-0 -z-10 hidden dark:block"
         style={{
           background: "radial-gradient(125% 125% at 50% 0%, #000000 40%, #00187A 100%)",
         }}
@@ -332,7 +319,7 @@ const ProjectsSection: React.FC = () => {
           </motion.div>
 
           <motion.h2
-            className="text-4xl md:text-5xl lg:text-6xl font-bold bg-linear-to-b from-white from-30% to-white/30 bg-clip-text text-transparent text-balance leading-none tracking-tighte mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:bg-linear-to-b dark:from-white dark:from-30% dark:to-white/30 dark:bg-clip-text dark:text-transparent text-balance leading-none tracking-tighte mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.3, duration: 0.8 }}
@@ -342,7 +329,7 @@ const ProjectsSection: React.FC = () => {
           <div className="bg-linear-to-r from-blue-700 via-blue-400 to-blue-700 max-w-42 sm:max-w-sm h-1 mx-auto rounded-full mb-4" />
 
           <motion.p
-            className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.4, duration: 0.8 }}
@@ -365,7 +352,7 @@ const ProjectsSection: React.FC = () => {
               onClick={() => handleFilterChange(type)}
               className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${filter === type
                 ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
-                : 'bg-white/10 dark:bg-white/5 backdrop-blur-sm border border-white/20 dark:border-white/10 hover:bg-blue-600/10 hover:border-blue-600/30'
+                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100 dark:bg-white/5 dark:text-slate-200 dark:border-white/10 dark:hover:bg-blue-600/10 dark:hover:border-blue-600/30 backdrop-blur-sm border'
                 }`}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}

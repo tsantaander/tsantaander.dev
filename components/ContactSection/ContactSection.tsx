@@ -1,10 +1,10 @@
 "use client"
 import React, { useRef } from "react"
 import { motion, useInView } from "motion/react"
-import { 
-  TbBrandGithub, 
-  TbBrandLinkedin, 
-  TbMail, 
+import {
+  TbBrandGithub,
+  TbBrandLinkedin,
+  TbMail,
   TbBrandWhatsapp,
   TbWorld
 } from "react-icons/tb"
@@ -18,7 +18,7 @@ const contactMethods = [
     color: "hover:text-blue-600 dark:hover:text-blue-400"
   },
   {
-    name: "GitHub", 
+    name: "GitHub",
     icon: TbBrandGithub,
     href: "https://github.com/tsantaander",
     color: "hover:text-purple-600 dark:hover:text-purple-400"
@@ -60,10 +60,10 @@ const ContactSection = () => {
   }
 
   const itemVariants = {
-    hidden: { 
-      opacity: 0, 
+    hidden: {
+      opacity: 0,
       y: 20,
-      scale: 0.9 
+      scale: 0.9
     },
     visible: {
       opacity: 1,
@@ -90,38 +90,41 @@ const ContactSection = () => {
   }
 
   return (
-    <section 
+    <section
       ref={sectionRef}
-      id="contact" 
-      className="w-full pt-20 pb-20 bg-white"
-      style={{
-        background: "radial-gradient(125% 125% at 50% 100%, #000000 40%, #00187A 100%)"
-      }}
+      id="contact"
+      className="w-full pt-20 pb-20 bg-slate-50 dark:bg-transparent relative overflow-hidden"
     >
+      <div
+        className="absolute inset-0 -z-10 hidden dark:block"
+        style={{
+          background: "radial-gradient(125% 125% at 50% 100%, #000000 40%, #00187A 100%)"
+        }}
+      />
       <div className="max-w-4xl mx-auto px-6">
         {/* Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-12"
           variants={headerVariants}
           initial="hidden"
           animate={isVisible ? "visible" : "hidden"}
         >
-          <motion.h2 
-            className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
+          <motion.h2
+            className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             Contacto
           </motion.h2>
-          <motion.div 
+          <motion.div
             className="bg-linear-to-r from-blue-700 via-blue-400 to-blue-700 max-w-20 h-1 mx-auto rounded-full mb-6"
             initial={{ width: 0 }}
             animate={isVisible ? { width: "5rem" } : { width: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           />
-          <motion.p 
-            className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+          <motion.p
+            className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 10 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.5, delay: 0.6 }}
@@ -131,13 +134,13 @@ const ContactSection = () => {
         </motion.div>
 
         {/* Contact Methods */}
-        <motion.div 
-          className="bg-gray-700/20 dark:bg-slate-700/30 rounded-2xl border backdrop-blur-[2.5px] p-8"
+        <motion.div
+          className="bg-white dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-white/10 backdrop-blur-[2.5px] p-8"
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
           animate={isVisible ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 40, scale: 0.95 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <motion.div 
+          <motion.div
             className="flex flex-wrap justify-center gap-8"
             variants={containerVariants}
             initial="hidden"
@@ -147,7 +150,7 @@ const ContactSection = () => {
               <motion.div
                 key={method.name}
                 variants={itemVariants}
-                whileHover={{ 
+                whileHover={{
                   scale: 1.1,
                   y: -5,
                   transition: { type: "spring", stiffness: 400, damping: 10 }
@@ -161,8 +164,8 @@ const ContactSection = () => {
                   className={`
                     flex flex-col items-center gap-3 p-4 rounded-xl 
                     transition-all duration-300 
-                    hover:bg-white/10 dark:hover:bg-black/20
-                    text-gray-700 dark:text-gray-300 ${method.color}
+                    hover:bg-slate-100 dark:hover:bg-white/10 
+                    text-slate-700 dark:text-slate-300 ${method.color}
                     group
                   `}
                 >

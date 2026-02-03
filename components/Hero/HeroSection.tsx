@@ -10,10 +10,10 @@ export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const [animationKey, setAnimationKey] = useState(0)
   const hasBeenInViewRef = useRef(false)
-  
+
   // Use InView WITHOUT once: true to allow re-animation
   const isInView = useInView(sectionRef, { margin: "100px", once: false })
-  
+
   // Re-trigger animation only when RE-ENTERING viewport (not on first entry)
   useEffect(() => {
     if (isInView) {
@@ -26,7 +26,7 @@ export default function HeroSection() {
       }
     }
   }, [isInView])
-  
+
   return (
     <section ref={sectionRef} id="home" className="relative h-screen w-full overflow-hidden flex items-center">
       <div style={{ width: '100%', height: '100%', position: 'absolute' }}>
@@ -35,7 +35,7 @@ export default function HeroSection() {
             beamWidth={3}
             beamHeight={30}
             beamNumber={20}
-            lightColor="#008DFF"
+            lightColor={resolvedTheme === 'dark' ? '#008DFF' : '#056FFF'}
             backgroundColor={resolvedTheme === 'dark' ? '#000000' : '#000b35'}
             speed={3}
             noiseIntensity={1.75}

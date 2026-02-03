@@ -58,6 +58,7 @@ const getRemotePatterns = () => {
 const nextConfig: NextConfig = {
   serverExternalPackages: ['payload'],
   images: {
+    qualities: [25, 50, 75, 100],
     remotePatterns: getRemotePatterns(),
     // Habilitar optimización de imágenes para mejor rendimiento
     formats: ['image/avif', 'image/webp'],

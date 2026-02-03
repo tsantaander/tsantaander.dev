@@ -1,5 +1,5 @@
 import { TypeAnimation } from 'react-type-animation';
- 
+
 const TypeWritting = () => {
   return (
     <TypeAnimation
@@ -13,7 +13,7 @@ const TypeWritting = () => {
       cursor={true}
       repeat={Infinity}
       style={{ fontSize: 'clamp(0.9rem, 2vw, 1.3em)', display: 'inline-block' }}
-      className='font-medium'
+      className='font-medium font-(family-name:--font-cascadia-code)'
     />
   );
 };

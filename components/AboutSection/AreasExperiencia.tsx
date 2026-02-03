@@ -60,7 +60,7 @@ const areasExperiencia: AreaExperiencia[] = [
     titulo: 'FrontEnd',
     descripcion: 'Creando soluciones mantenibles y elegantes con las últimas tecnologías del ecosistema web moderno.',
     icono: BsWindowSplit,
-    color: 'from-blue-500 to-cyan-500',
+    color: 'from-slate-950 to-blue-600',
     tecnologias: [
       { nombre: 'React', nivel: 'Avanzado' },
       { nombre: 'TypeScript', nivel: 'Intermedio-Avanzado' },
@@ -76,7 +76,7 @@ const areasExperiencia: AreaExperiencia[] = [
     titulo: 'BackEnd',
     descripcion: 'Construyendo APIs robustas y sistemas escalables con las mejores prácticas de desarrollo.',
     icono: LuServerCog,
-    color: 'from-emerald-500 to-teal-500',
+    color: 'from-slate-950 to-blue-600',
     tecnologias: [
       { nombre: 'Node.js', nivel: 'Intermedio' },
       { nombre: 'Express', nivel: 'Inicial' },
@@ -91,7 +91,7 @@ const areasExperiencia: AreaExperiencia[] = [
     titulo: 'DevOps',
     descripcion: 'Automatizando despliegues y mejorando la integración continua para un desarrollo más eficiente.',
     icono: LuLayers,
-    color: 'from-orange-500 to-amber-500',
+    color: 'from-slate-950 to-blue-600',
     tecnologias: [
       { nombre: 'Docker', nivel: 'Intermedio' },
       { nombre: 'GitHub Actions', nivel: 'Intermedio' },
@@ -106,7 +106,7 @@ const areasExperiencia: AreaExperiencia[] = [
     titulo: 'Conocimientos',
     descripcion: 'Utilizando herramientas modernas para mejorar la eficiencia y productividad.',
     icono: LuBrain,
-    color: 'from-purple-500 to-pink-500',
+    color: 'from-slate-950 to-blue-600',
     tecnologias: [
       { nombre: 'Linux', nivel: 'Intermedio-Avanzado' },
       { nombre: 'Windows', nivel: 'Intermedio' },
@@ -122,7 +122,7 @@ const areasExperiencia: AreaExperiencia[] = [
     titulo: 'Herramientas',
     descripcion: 'Utilizando herramientas modernas para mejorar la eficiencia y productividad.',
     icono: LuWrench,
-    color: 'from-rose-500 to-red-500',
+    color: 'from-slate-950 to-blue-600',
     tecnologias: [
       { nombre: 'Linux', nivel: 'Intermedio' },
       { nombre: 'Git', nivel: 'Intermedio' },
@@ -261,8 +261,8 @@ export const AreasDeExperiencia = () => {
                                     <span className="font-medium text-slate-700 dark:text-slate-300">{tech.nombre}</span>
                                     <span className="text-slate-500 dark:text-slate-400">{tech.nivel}</span>
                                   </div>
-                                  <Progress 
-                                    value={nivelAValor(tech.nivel)} 
+                                  <Progress
+                                    value={nivelAValor(tech.nivel)}
                                     className="h-1.5 bg-slate-100 dark:bg-slate-800"
                                   />
                                 </div>
@@ -282,7 +282,7 @@ export const AreasDeExperiencia = () => {
 
         {/* Dialog de shadcn para móvil */}
         <Dialog open={mobileDialogOpen} onOpenChange={setMobileDialogOpen}>
-          <DialogContent 
+          <DialogContent
             className="max-w-[calc(100%-2rem)] max-h-[85vh] overflow-hidden p-0 gap-0 rounded-2xl"
             showCloseButton={false}
           >
@@ -335,8 +335,8 @@ export const AreasDeExperiencia = () => {
                               <span className="font-medium text-slate-700 dark:text-slate-300">{tech.nombre}</span>
                               <span className="text-slate-500 dark:text-slate-400">{tech.nivel}</span>
                             </div>
-                            <Progress 
-                              value={nivelAValor(tech.nivel)} 
+                            <Progress
+                              value={nivelAValor(tech.nivel)}
                               className="h-1.5 bg-slate-100 dark:bg-slate-800"
                             />
                           </div>

@@ -10,8 +10,17 @@ const SYSTEM_PROMPT = `Eres un asistente profesional del portafolio de Tomás Al
 ## Información Profesional:
 - **Nombre**: Tomás Alexander Santander Soto
 - **Empresa**: TEGMA SOLUTIONS SpA. (CEO y Fundador)
-- **Rol**: Full Stack Developer con enfoque FrontEnd
+- **Rol**: Full Stack Developer con enfoque FrontEnd, actualmente trabaja como Profesional Independiente en Tegma Solutions, sin dependencia laboral.
 - **Formación**: Estudiante de Ingeniería Informática
+
+## Experiencia en Proyectos de desarrollo:
+- SISA Médica: Aplicación web solicitada por nuestro cliente SISA Médica, el cual es un centro de imagenología que buscaba mejorar su plataforma web, posicionamiento SEO y experiencia de usuario. Por lo que se implemento una migración de su sitio en Wordpress a Next.js
+- San Fernando Salud: Aplicación web solicitada por nuestro cliente San Fernando Salud, el cual es un centro de salud que buscaba mejorar su plataforma web, posicionamiento SEO y experiencia de usuario. Por lo que se implemento una migración de su sitio en Wordpress a Next.js, todo lo anterior, siendo potenciado con Strapi Cloud con la finalidad de integrarlo como CMS Headless, para administrar un catálogo de servicios y especialidades médicas, como también un blog de profesionales.
+- ProdMentorAI: Agente de Inteligencia Artificial conversacional que busca Optimizar el rendimiento de ventas en tiendas minoristas (físicas o con componente presencial) actuando como un mentor virtual experto para el personal de ventas. 
+- Clouding Drive: Plataforma de nube que busca centralizar la información a nivel de organizaciones.
+- SmartWatt: Aplicación móvil de métricas de energía en un hogar, comunicandose con un circuito manejado con Arduino.
+- CCTV Monitor: Plataforma de seguimiento de criptomonedas con análisis técnico, alertas de precios y portfolio personal.
+- FamilySync: Aplicación móvil que busca centralizar la gestión de tareas, rutinas, finanzas y eventos familiares.
 
 ## Áreas de Experiencia:
 
@@ -81,7 +90,7 @@ export async function POST(req: Request) {
 
   const result = streamText({
     model: groq('llama-3.3-70b-versatile'),
-    messages: convertToModelMessages(messages),
+    messages: await convertToModelMessages(messages),
     system: SYSTEM_PROMPT,
     temperature: 0.7,
   });

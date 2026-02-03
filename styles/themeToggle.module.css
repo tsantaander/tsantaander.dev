@@ -1,92 +1,50 @@
-.themeToggle {
-    width: 2em;
-    height: 2em;
+.container {
+    --size: 30px;
     display: flex;
-    align-items: center;
     justify-content: center;
-}
-
-.themeToggleMobile {
-    width: 1.5em;
-    height: 1.5em;
-}
-
-.stSunMoonThemeToggleBtn {
+    align-items: center;
     position: relative;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: var(--size);
+    user-select: none;
+    fill: currentColor;
 }
 
-.stSunMoonThemeToggleBtn .themeToggleInput {
-    opacity: 0;
-    width: 100%;
-    aspect-ratio: 1;
-}
-
-.stSunMoonThemeToggleBtn svg {
+.moon {
     position: absolute;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.4s ease;
-    transform: rotate(40deg);
+    animation: keyframes-fill .5s;
 }
 
-.stSunMoonThemeToggleBtn svg .sunMoon {
-    transform-origin: center center;
-    transition: inherit;
-    transform: scale(1);
+.sun {
+    position: absolute;
+    display: none;
+    animation: keyframes-fill .5s;
 }
 
-.stSunMoonThemeToggleBtn svg .sunRay {
-    transform-origin: center center;
-    transform: scale(0);
+.input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
 }
 
-.stSunMoonThemeToggleBtn svg mask > circle {
-    transition: transform 0.64s cubic-bezier(0.41, 0.64, 0.32, 1.575);
-    transform: translate(0px, 0px);
+/* Logic for showing/hiding based on checked state */
+.input:checked~.moon {
+    display: none;
 }
 
-.stSunMoonThemeToggleBtn svg .sunRay2 {
-    animation-delay: 0.05s !important;
+.input:checked~.sun {
+    display: block;
 }
 
-.stSunMoonThemeToggleBtn svg .sunRay3 {
-    animation-delay: 0.1s !important;
-}
-
-.stSunMoonThemeToggleBtn svg .sunRay4 {
-    animation-delay: 0.17s !important;
-}
-
-.stSunMoonThemeToggleBtn svg .sunRay5 {
-    animation-delay: 0.25s !important;
-}
-
-.stSunMoonThemeToggleBtn .themeToggleInput:checked + svg {
-    transform: rotate(90deg);
-}
-
-.stSunMoonThemeToggleBtn .themeToggleInput:checked + svg mask > circle {
-    transform: translate(16px, -3px);
-}
-
-.stSunMoonThemeToggleBtn .themeToggleInput:checked + svg .sunMoon {
-    transform: scale(0.55);
-}
-
-.stSunMoonThemeToggleBtn .themeToggleInput:checked + svg .sunRay {
-    animation: showRay1832 0.4s ease 0s 1 forwards;
-}
-
-@keyframes showRay1832 {
+@keyframes keyframes-fill {
     0% {
-        transform: scale(0);
+        transform: rotate(-360deg) scale(0);
+        opacity: 0;
     }
-    100% {
-        transform: scale(1);
+
+    75% {
+        transform: rotate(25deg);
     }
 }

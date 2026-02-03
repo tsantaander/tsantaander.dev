@@ -39,22 +39,22 @@ export default function NavBar({ items = navItems }: NavBarProps) {
   useEffect(() => {
     // Si estamos en una página externa (como /blog), determinamos el tab activo por la URL
     const externalItem = items.find(item => item.isExternal && pathname === item.url)
-    
+
     if (externalItem) {
       setActiveTab(externalItem.name)
     } else if (pathname === '/') {
       // Verificar si hay un scroll pendiente en sessionStorage
       const pendingScrollTarget = sessionStorage.getItem('pendingScrollTarget')
-      
+
       if (pendingScrollTarget) {
         sessionStorage.removeItem('pendingScrollTarget')
-        
+
         // Actualizar el tab activo con la sección destino
         const targetItem = items.find(item => item.url === pendingScrollTarget)
         if (targetItem) {
           setActiveTab(targetItem.name)
         }
-        
+
         // Esperar a que el DOM esté listo y hacer scroll
         setTimeout(() => {
           isClicking.current = true
@@ -63,10 +63,10 @@ export default function NavBar({ items = navItems }: NavBarProps) {
             isClicking.current = false
           }, 1500)
         }, 150)
-        
+
         return // No iniciar el observer inmediatamente
       }
-      
+
       // Para la página de inicio, usamos Intersection Observer con mejor detección
       const sectionVisibility = new Map<string, number>();
 
@@ -131,7 +131,7 @@ export default function NavBar({ items = navItems }: NavBarProps) {
                 if (!item.isExternal && !item.isRoute) {
                   e.preventDefault();
                   setActiveTab(item.name);
-                  
+
                   // Si estamos en la página principal, hacer scroll directo
                   if (pathname === '/') {
                     isClicking.current = true;
@@ -152,9 +152,9 @@ export default function NavBar({ items = navItems }: NavBarProps) {
               className={cn(
                 `relative cursor-pointer text-base font-fira font-semibold rounded-full transition-colors whitespace-nowrap ${item.style}`,
                 "px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-2",
-                "text-foreground/80 hover:text-primary",
+                "text-foreground/80 hover:text-slate-800",
                 "flex items-center justify-center",
-                isActive && "bg-slate-200 dark:bg-slate-900 text-primary",
+                isActive && "bg-slate-200 dark:bg-slate-900 text-slate-900 dark:text-white hover:text-white",
               )}
             >
               <span className="hidden md:inline">{item.name}</span>
@@ -172,7 +172,7 @@ export default function NavBar({ items = navItems }: NavBarProps) {
                     damping: 35,
                   }}
                 >
-                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 sm:w-10 md:w-12 h-1 bg-primary rounded-t-full" />
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 sm:w-10 md:w-12 h-1 bg-slate-600 dark:bg-white rounded-t-full" />
                 </motion.div>
               )}
             </Link>
