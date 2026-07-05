@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/ui/theme-provider"
-import { Inter, Fira_Code, Noto_Sans, Cascadia_Code } from "next/font/google";
+import { Fira_Code, Noto_Sans, Cascadia_Code } from "next/font/google";
 import { ResponsiveProvider } from "@/context/ResponsiveContext";
 import NavBar from "@/components/Header/NavBar";
 import AIAgentModal from "@/components/Agent/AgentModal";
@@ -24,6 +24,7 @@ const cascadiaCode = Cascadia_Code({
   variable: "--font-cascadia-code",
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700"],
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
